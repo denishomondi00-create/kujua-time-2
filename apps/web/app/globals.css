@@ -49,6 +49,7 @@
   --kujua-radius-full: 9999px;
   --font-display: var(--font-sora), 'Sora', sans-serif;
   --font-body: var(--font-outfit), 'Outfit', sans-serif;
+  --font-brand-serif: var(--font-cormorant-garamond), 'Cormorant Garamond', serif;
   --kujua-section-py: 96px;
   --kujua-container-max: 1200px;
   --kujua-container-px: 24px;
@@ -173,6 +174,126 @@
   }
   .kujua-badge-teal { background: rgba(13, 78, 92, 0.08); color: var(--kujua-primary-teal); }
   .kujua-badge-amber { background: rgba(232, 122, 62, 0.10); color: var(--kujua-primary-amber-dark); }
+
+  .kujua-wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.28ch;
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    font-feature-settings: 'liga' 1, 'kern' 1;
+    text-rendering: geometricPrecision;
+  }
+
+  .kujua-wordmark-accent {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: #d86f31;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    -webkit-text-fill-color: currentColor;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+
+  .kujua-wordmark-light {
+    color: #ffffff;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.22);
+  }
+
+  .kujua-wordmark-light .kujua-wordmark-accent {
+    color: var(--kujua-primary-amber-light);
+  }
+
+  .kujua-wordmark-stacked {
+    display: inline-grid;
+    gap: 0.01em;
+    line-height: 0.92;
+    align-items: start;
+    position: relative;
+  }
+
+  .kujua-wordmark-stacked span {
+    display: block;
+  }
+
+  .kujua-wordmark-stacked span:first-child {
+    font-family: var(--font-brand-serif);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.06em;
+    color: transparent;
+    background: linear-gradient(145deg, #062a32 0%, #0d4e5c 55%, #166d7d 100%);
+    background-size: 220% 220%;
+    background-position: 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.025em;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+    transition: background-position var(--kujua-transition-slow), filter var(--kujua-transition-slow), transform var(--kujua-transition-base);
+  }
+
+  .kujua-wordmark-stacked .kujua-wordmark-accent {
+    margin-top: -0.02em;
+    font-size: 0.46em;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    transition: letter-spacing var(--kujua-transition-base), transform var(--kujua-transition-base), color var(--kujua-transition-base);
+  }
+
+  .kujua-wordmark-stacked::after {
+    content: '';
+    width: 62%;
+    height: 1.5px;
+    margin-top: 0.16em;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, rgba(13, 78, 92, 0.15) 0%, rgba(13, 78, 92, 0.82) 45%, rgba(232, 122, 62, 0.75) 100%);
+  }
+
+  .kujua-wordmark-light span:first-child {
+    background: linear-gradient(145deg, #f6f8fa 0%, #ffffff 58%, #dbe2ea 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .kujua-wordmark-light.kujua-wordmark-stacked::after {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.78) 55%, rgba(245, 155, 92, 0.85) 100%);
+  }
+
+  .kujua-brand-link {
+    position: relative;
+  }
+
+  .kujua-brand-link:hover .kujua-wordmark-stacked span:first-child,
+  .kujua-brand-link:focus-visible .kujua-wordmark-stacked span:first-child {
+    background-position: 100% 50%;
+    filter: drop-shadow(0 2px 4px rgba(13, 78, 92, 0.15));
+    transform: translateY(-0.01em);
+  }
+
+  .kujua-brand-link:hover .kujua-wordmark-stacked .kujua-wordmark-accent,
+  .kujua-brand-link:focus-visible .kujua-wordmark-stacked .kujua-wordmark-accent {
+    letter-spacing: 0.24em;
+    transform: translateX(0.02em);
+  }
+
+  .kujua-brand-link-compact {
+    gap: 10px !important;
+  }
+
+  .kujua-brand-link-compact img {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 14px !important;
+  }
+
+  .kujua-brand-link-compact .kujua-wordmark {
+    font-size: 1.34rem !important;
+  }
 }
 @layer utilities {
   .bg-mesh {
@@ -212,7 +333,47 @@
 .kujua-input:focus { border-color: var(--kujua-primary-teal); box-shadow: var(--kujua-shadow-focus); }
 @media (max-width: 768px) {
   :root { --kujua-section-py: 64px; --kujua-container-px: 20px; }
+
+  .kujua-brand-link img {
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 12px !important;
+  }
+
+  .kujua-brand-link-compact img {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 12px !important;
+  }
+
+  .kujua-brand-link .kujua-wordmark {
+    font-size: 1.22rem !important;
+  }
+
+  .kujua-brand-link-compact .kujua-wordmark {
+    font-size: 1.2rem !important;
+  }
 }
 @media (max-width: 480px) {
   :root { --kujua-section-py: 48px; --kujua-container-px: 16px; }
+
+  .kujua-brand-link img {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 10px !important;
+  }
+
+  .kujua-brand-link-compact img {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 10px !important;
+  }
+
+  .kujua-brand-link .kujua-wordmark {
+    font-size: 1.08rem !important;
+  }
+
+  .kujua-brand-link-compact .kujua-wordmark {
+    font-size: 1.04rem !important;
+  }
 }

@@ -153,40 +153,25 @@ function Navbar() {
       >
         <Link
           href="/"
+          className="kujua-brand-link kujua-brand-link-compact"
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '10px',
+            gap: '12px',
             textDecoration: 'none',
             flexShrink: 0,
           }}
         >
-          <div
-            style={{
-              width: 34,
-              height: 34,
-              background: 'var(--kujua-primary-teal)',
-              borderRadius: '9px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <circle cx="8" cy="5.5" r="2" fill="white" />
-              <path d="M8 9c-2.67 0-5 1.12-5 2.5V13h10v-1.5C13 10.12 10.67 9 8 9z" fill="white" />
-            </svg>
-          </div>
-          <span
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '1.0625rem',
-              fontWeight: 700,
-              color: 'var(--kujua-charcoal)',
-              letterSpacing: '-0.015em',
-            }}
-          >
-            Kujua Time
+          <img
+            src="/kujuatime-logo-cropped.png"
+            alt="Kujua Time logo"
+            width={44}
+            height={44}
+            style={{ width: 44, height: 44, borderRadius: '12px' }}
+          />
+          <span className="kujua-wordmark kujua-wordmark-stacked" style={{ fontSize: '1.2rem' }}>
+            <span>Kujua</span>
+            <span className="kujua-wordmark-accent">Time</span>
           </span>
         </Link>
 
@@ -563,22 +548,13 @@ function Footer() {
                 marginBottom: '20px',
               }}
             >
-              <div
-                style={{
-                  width: 34,
-                  height: 34,
-                  background: 'var(--kujua-primary-teal)',
-                  borderRadius: '9px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <circle cx="8" cy="5.5" r="2" fill="white" />
-                  <path d="M8 9c-2.67 0-5 1.12-5 2.5V13h10v-1.5C13 10.12 10.67 9 8 9z" fill="white" />
-                </svg>
-              </div>
+              <img
+                src="/kujuatime-logo-cropped.png"
+                alt="Kujua Time logo"
+                width={34}
+                height={34}
+                style={{ width: 34, height: 34, borderRadius: '9px' }}
+              />
               <span
                 style={{
                   fontFamily: 'var(--font-display)',

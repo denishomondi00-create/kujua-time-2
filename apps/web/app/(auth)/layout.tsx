@@ -31,37 +31,25 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div>
           <Link
             href="/"
+            className="kujua-brand-link kujua-brand-link-compact"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '10px',
+              gap: '12px',
               marginBottom: '56px',
               textDecoration: 'none',
             }}
           >
-            <div
-              style={{
-                width: 38,
-                height: 38,
-                borderRadius: 12,
-                background: 'var(--kujua-primary-teal)',
-                display: 'grid',
-                placeItems: 'center',
-                color: 'white',
-                fontWeight: 700,
-              }}
-            >
-              KT
-            </div>
-            <span
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontWeight: 700,
-                fontSize: '1.05rem',
-                color: 'var(--kujua-charcoal)',
-              }}
-            >
-              Kujua Time
+            <img
+              src="/kujuatime-logo-cropped.png"
+              alt="Kujua Time logo"
+              width={50}
+              height={50}
+              style={{ width: 50, height: 50, borderRadius: 14 }}
+            />
+            <span className="kujua-wordmark kujua-wordmark-stacked" style={{ fontSize: '1.24rem' }}>
+              <span>Kujua</span>
+              <span className="kujua-wordmark-accent">Time</span>
             </span>
           </Link>
 

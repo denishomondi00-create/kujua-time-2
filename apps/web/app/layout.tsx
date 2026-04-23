@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Outfit, Sora } from 'next/font/google'
+import { Cormorant_Garamond, Outfit, Sora } from 'next/font/google'
 
 import { Providers } from '@/components/providers/providers'
 import { PageTracking } from '@/lib/analytics/page-tracking'
@@ -20,6 +20,14 @@ const outfit = Outfit({
   display: 'swap',
   preload: false,
   weight: ['300', '400', '500', '600', '700'],
+})
+
+const cormorantGaramond = Cormorant_Garamond({
+  subsets: ['latin'],
+  variable: '--font-cormorant-garamond',
+  display: 'swap',
+  preload: false,
+  weight: ['500', '600', '700'],
 })
 
 export const metadata: Metadata = {
@@ -82,9 +90,10 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icon.png', sizes: '128x128', type: 'image/png' },
     ],
-    apple: [{ url: '/apple-icon', sizes: '180x180', type: 'image/png' }],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
     shortcut: '/favicon-32x32.png',
   },
   manifest: '/site.webmanifest',
@@ -108,7 +117,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${sora.variable} ${outfit.variable}`}
+      className={`${sora.variable} ${outfit.variable} ${cormorantGaramond.variable}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

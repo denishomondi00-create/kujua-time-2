@@ -85,12 +85,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           borderRight: '1px solid rgba(255,255,255,0.06)',
         }}
       >
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', padding: '6px 8px', borderRadius: 14 }}>
-          <div style={{ width: 38, height: 38, borderRadius: 12, background: 'var(--kujua-primary-teal)', display: 'grid', placeItems: 'center', fontWeight: 700 }}>
-            KT
-          </div>
+        <Link href="/" className="kujua-brand-link kujua-brand-link-compact" style={{ display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none', padding: '6px 8px', borderRadius: 14 }}>
+          <img
+            src="/kujuatime-logo-cropped.png"
+            alt="Kujua Time logo"
+            width={52}
+            height={52}
+            style={{ width: 52, height: 52, borderRadius: 14 }}
+          />
           <div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, color: 'white' }}>Kujua Time</div>
+            <div className="kujua-wordmark kujua-wordmark-light kujua-wordmark-stacked" style={{ fontSize: '1.14rem' }}>
+              <span>Kujua</span>
+              <span className="kujua-wordmark-accent">Time</span>
+            </div>
             <div style={{ fontSize: '0.82rem', color: 'var(--kujua-gray-400)' }}>Service business workspace</div>
           </div>
         </Link>
