@@ -18,7 +18,7 @@ export function aggregateByPeriod<T extends { date: string }>(items: T[], period
       const dayOfWeek = d.getDay();
       const weekStart = new Date(d);
       weekStart.setDate(d.getDate() - dayOfWeek);
-      key = weekStart.toISOString().split('T')[0];
+      key = weekStart.toISOString().slice(0, 10);
     } else {
       key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
     }

@@ -2,9 +2,10 @@
  * Reporting and analytics indexes for efficient dashboard queries.
  */
 import { Connection } from 'mongoose';
+import { getNativeDb } from './native-db';
 
 export async function ensureReportingIndexes(conn: Connection): Promise<void> {
-  const db = conn.db;
+  const db = getNativeDb(conn);
 
   // Bookings: time-range queries for reports
   await db.collection('bookings').createIndex(

@@ -88,11 +88,7 @@ export class IndexesBootstrap implements OnModuleInit {
       { collection: 'booking_pages', keys: { workspaceSlug: 1 } },
       { collection: 'idempotency_keys', keys: { key: 1 } },
       { collection: 'api_keys', keys: { hashedKey: 1 } },
-      {
-        collection: 'clients',
-        keys: { workspaceId: 1, email: 1 },
-        options: { partialFilterExpression: { email: { $exists: true, $ne: null } } },
-      },
+      { collection: 'clients', keys: { workspaceId: 1, email: 1 } },
     ];
 
     for (const spec of uniqueSpecs) {
@@ -155,7 +151,6 @@ export class IndexesBootstrap implements OnModuleInit {
 
       // Calendar sync
       { collection: 'external_calendar_events', keys: { connectedCalendarId: 1, startAt: 1, endAt: 1 } },
-      { collection: 'calendar_sync_states', keys: { connectedCalendarId: 1 } },
 
       // Outgoing webhooks
       { collection: 'outgoing_webhooks', keys: { workspaceId: 1, event: 1, createdAt: -1 } },

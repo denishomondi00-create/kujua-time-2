@@ -1,11 +1,12 @@
 import 'server-only'
 
 import { cookies } from 'next/headers'
+import { unwrapApiPayload } from '@/lib/api-client/payload'
+import { normalizeDashboardOverview } from '@/features/dashboard/utils'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 function buildUrl(path: string) {
-  if (!API_BASE_URL) return path
   return new URL(path, API_BASE_URL).toString()
 }
 
@@ -21,5 +22,5 @@ export async function getDashboardOverviewServer() {
     throw new Error('Unable to load dashboard overview.')
   }
 
-  return response.json()
+  return normalizeDashboardOverview(unwrapApiPayload(await response.json()))
 }

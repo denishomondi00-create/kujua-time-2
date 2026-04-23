@@ -12,10 +12,11 @@ export const metadata: Metadata = {
 export default async function BookingDetailPage({
   params,
 }: {
-  params: { bookingId: string }
+  params: Promise<{ bookingId: string }>
 }) {
   await requireAuthenticatedUser()
-  const booking = await getBookingDetailServer(params.bookingId)
+  const { bookingId } = await params
+  const booking = await getBookingDetailServer(bookingId)
 
   return <BookingDetailPanel booking={booking} />
 }

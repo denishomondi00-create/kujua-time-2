@@ -21,8 +21,12 @@ export default function Loading() {
       >
         <div className="skeleton" style={{ width: 120, height: 28, borderRadius: '8px' }} />
         <div style={{ display: 'flex', gap: '20px', flex: 1 }}>
-          {[80, 90, 80, 70].map((w) => (
-            <div key={w} className="skeleton" style={{ width: w, height: 14, borderRadius: '4px' }} />
+          {[80, 90, 80, 70].map((w, index) => (
+            <div
+              key={`top-nav-skeleton-${index}-${w}`}
+              className="skeleton"
+              style={{ width: w, height: 14, borderRadius: '4px' }}
+            />
           ))}
         </div>
         <div style={{ display: 'flex', gap: '12px', marginLeft: 'auto' }}>

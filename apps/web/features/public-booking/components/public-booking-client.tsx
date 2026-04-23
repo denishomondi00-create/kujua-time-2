@@ -1,6 +1,6 @@
 "use client"
 
-import { CalendarSync, CreditCard, FileEdit3 } from "lucide-react"
+import { CalendarSync, CreditCard, FileEdit } from "lucide-react"
 
 import { AlertBanner } from "@/components/feedback/alert-banner"
 import { SurfaceCard } from "@/components/layout/surface-card"
@@ -73,7 +73,7 @@ export function PublicBookingClient({
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-sm font-semibold text-[var(--kt-muted-foreground)]">
-              <FileEdit3 className="h-4 w-4" />
+              <FileEdit className="h-4 w-4" />
               Step {machine.step === "slot" ? "1" : machine.step === "details" ? "2" : machine.step === "payment" ? "3" : "4"} of 4
             </div>
             <h2 className="text-xl font-semibold">Complete your booking</h2>

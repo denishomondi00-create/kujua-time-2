@@ -34,7 +34,9 @@ export function generateTokenPair(
 function parseExpiresIn(exp: string): number {
   const match = exp.match(/^(\d+)(s|m|h|d)$/);
   if (!match) return 900;
-  const [, val, unit] = match;
-  const multipliers: Record<string, number> = { s: 1, m: 60, h: 3600, d: 86400 };
-  return Number(val) * (multipliers[unit] ?? 1);
+  const val = match[1];
+  const unit = match[2] as 's' | 'm' | 'h' | 'd' | undefined;
+  if (!val || !unit) return 900;
+  const multipliers: Record<'s' | 'm' | 'h' | 'd', number> = { s: 1, m: 60, h: 3600, d: 86400 };
+  return Number(val) * multipliers[unit];
 }

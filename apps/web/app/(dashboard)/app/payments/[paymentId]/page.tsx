@@ -12,10 +12,11 @@ export const metadata: Metadata = {
 export default async function PaymentDetailPage({
   params,
 }: {
-  params: { paymentId: string }
+  params: Promise<{ paymentId: string }>
 }) {
   await requireAuthenticatedUser()
-  const payment = await getPaymentDetailServer(params.paymentId)
+  const { paymentId } = await params
+  const payment = await getPaymentDetailServer(paymentId)
 
   return <PaymentSummaryCard payment={payment} />
 }

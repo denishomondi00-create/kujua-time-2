@@ -12,10 +12,11 @@ export const metadata: Metadata = {
 export default async function AutomationDetailPage({
   params,
 }: {
-  params: { automationId: string }
+  params: Promise<{ automationId: string }>
 }) {
   await requireAuthenticatedUser()
-  const automation = await getAutomationDetailServer(params.automationId)
+  const { automationId } = await params
+  const automation = await getAutomationDetailServer(automationId)
 
-  return <AutomationEditorForm mode="update" automationId={params.automationId} initialValues={automation} />
+  return <AutomationEditorForm mode="update" automationId={automationId} initialValues={automation} />
 }

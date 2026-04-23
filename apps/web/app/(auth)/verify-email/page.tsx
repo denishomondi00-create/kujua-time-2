@@ -8,12 +8,13 @@ export const metadata: Metadata = {
   description: 'Verify your email address to continue to Kujua Time.',
 }
 
-export default function VerifyEmailPage({
+export default async function VerifyEmailPage({
   searchParams,
 }: {
-  searchParams?: { token?: string }
+  searchParams?: Promise<{ token?: string }>
 }) {
-  const token = searchParams?.token ?? ''
+  const resolvedSearchParams = await searchParams
+  const token = resolvedSearchParams?.token ?? ''
 
   return (
     <div>

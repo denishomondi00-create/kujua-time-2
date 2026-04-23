@@ -12,6 +12,7 @@ import {
   type SignupInput,
   type VerifyEmailInput,
 } from '@/features/auth/schemas'
+import { unwrapApiPayload } from '@/lib/api-client/payload'
 
 export const AUTH_REDIRECTS = {
   afterLogin: '/app',
@@ -41,10 +42,9 @@ type RequestOptions = RequestInit & {
   headers?: HeadersInit
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 function buildUrl(path: string) {
-  if (!API_BASE_URL) return path
   return new URL(path, API_BASE_URL).toString()
 }
 
@@ -62,7 +62,7 @@ async function requestJson<T>(path: string, init: RequestOptions = {}, parse?: (
   })
 
   const isJson = response.headers.get('content-type')?.includes('application/json')
-  const payload = isJson ? await response.json() : null
+  const payload = isJson ? unwrapApiPayload<T>(await response.json()) : null
 
   if (!response.ok) {
     const message =

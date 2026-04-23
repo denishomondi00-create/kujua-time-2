@@ -12,10 +12,10 @@ export class Booking extends Document {
   @Prop()
   eventTypeName: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   reference: string;
 
-  @Prop({ required: true, index: true })
+  @Prop({ required: true })
   clientId: string;
 
   @Prop()
@@ -54,7 +54,7 @@ export class Booking extends Document {
   @Prop({ type: MongooseSchema.Types.Mixed })
   formResponses?: Record<string, unknown>;
 
-  @Prop({ unique: true })
+  @Prop()
   publicBookingToken: string;
 
   @Prop({ default: 'public', enum: ['public', 'manual', 'admin', 'api'] })

@@ -18,7 +18,7 @@ export class BookingHold extends Document {
   @Prop({ required: true })
   timezone: string;
 
-  @Prop({ required: true, index: true })
+  @Prop({ required: true })
   expiresAt: Date;
 
   @Prop({ default: false })

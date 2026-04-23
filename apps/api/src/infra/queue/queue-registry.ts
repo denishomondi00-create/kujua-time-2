@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue, JobsOptions } from 'bullmq';
-import { QUEUE_NAMES } from './bullmq.module';
+import { QUEUE_NAMES } from './queue.constants';
 
 /**
  * QueueRegistry

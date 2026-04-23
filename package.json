@@ -5,11 +5,11 @@
   "description": "Kujua Time monorepo, branded scheduling, payments, reminders, CRM, and automations for service businesses.",
   "packageManager": "pnpm@9.15.1",
   "engines": {
-    "node": ">=20.18.0 <21",
+    "node": "^20.18.0 || ^22.0.0",
     "pnpm": ">=9.0.0"
   },
   "scripts": {
-    "dev": "turbo run dev --parallel",
+    "dev": "turbo run dev",
     "dev:web": "pnpm --filter @kujua-time/web dev",
     "dev:api": "pnpm --filter @kujua-time/api start:dev",
     "dev:worker": "pnpm --filter @kujua-time/worker start:dev",

@@ -3,9 +3,10 @@
  * Run at bootstrap to enforce data integrity constraints.
  */
 import { Connection } from 'mongoose';
+import { getNativeDb } from './native-db';
 
 export async function ensureUniqueIndexes(conn: Connection): Promise<void> {
-  const db = conn.db;
+  const db = getNativeDb(conn);
 
   // Identity
   await db.collection('users').createIndex(

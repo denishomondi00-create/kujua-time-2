@@ -2,8 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
-    "paths": { "@kujua-time/*": ["../../packages/*/src"] }
+    "rootDir": "./src"
   },
   "include": ["src/**/*"]
 }

@@ -4,6 +4,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { AUTH_REDIRECTS, getAuthSession } from '@/features/auth/utils'
+import { getServerSession, isAuthenticated } from '@/lib/auth/session'
 
 export async function getAuthSessionServer() {
   const cookieStore = await cookies()
@@ -24,11 +25,15 @@ export async function requireAuthenticatedUser(redirectTo = '/login') {
 }
 
 export async function redirectIfAuthenticated(redirectTo = AUTH_REDIRECTS.guestOnlyDefault) {
-  const session = await getAuthSessionServer()
+  const session = await getServerSession()
 
-  if (session.isAuthenticated) {
+  if (isAuthenticated(session)) {
     redirect(redirectTo)
   }
 
-  return session
+  return {
+    isAuthenticated: false,
+    user: null,
+    workspace: null,
+  }
 }

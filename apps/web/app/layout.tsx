@@ -10,6 +10,7 @@ const sora = Sora({
   subsets: ['latin'],
   variable: '--font-sora',
   display: 'swap',
+  preload: false,
   weight: ['300', '400', '500', '600', '700', '800'],
 })
 
@@ -17,6 +18,7 @@ const outfit = Outfit({
   subsets: ['latin'],
   variable: '--font-outfit',
   display: 'swap',
+  preload: false,
   weight: ['300', '400', '500', '600', '700'],
 })
 
@@ -82,7 +84,7 @@ export const metadata: Metadata = {
       { url: '/favicon.ico', sizes: 'any' },
       { url: '/icon.svg', type: 'image/svg+xml' },
     ],
-    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+    apple: [{ url: '/apple-icon', sizes: '180x180', type: 'image/png' }],
     shortcut: '/favicon-32x32.png',
   },
   manifest: '/site.webmanifest',
@@ -107,6 +109,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${sora.variable} ${outfit.variable}`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <body className="min-h-screen antialiased">

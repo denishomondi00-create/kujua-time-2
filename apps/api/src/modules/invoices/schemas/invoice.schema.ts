@@ -8,7 +8,7 @@ export class Invoice extends Document {
   @Prop() clientName?: string;
   @Prop() clientEmail?: string;
   @Prop({ index: true }) bookingId?: string;
-  @Prop({ required: true, unique: true }) invoiceNumber: string;
+  @Prop({ required: true }) invoiceNumber: string;
   @Prop({ required: true, default: 'draft', enum: ['draft', 'sent', 'paid', 'void'] }) status: string;
   @Prop({ required: true }) amount: number;
   @Prop({ default: 'USD' }) currency: string;

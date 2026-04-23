@@ -12,10 +12,11 @@ export const metadata: Metadata = {
 export default async function ClientDetailPage({
   params,
 }: {
-  params: { clientId: string }
+  params: Promise<{ clientId: string }>
 }) {
   await requireAuthenticatedUser()
-  const client = await getClientDetailServer(params.clientId)
+  const { clientId } = await params
+  const client = await getClientDetailServer(clientId)
 
   return (
     <div className="client-detail-grid" style={{ display: 'grid', gridTemplateColumns: '360px 1fr', gap: 16 }}>

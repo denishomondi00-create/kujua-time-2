@@ -3,11 +3,11 @@ import 'server-only'
 import { cookies } from 'next/headers'
 
 import type { BookingQuery } from '@/features/bookings/schemas'
+import { unwrapApiPayload } from '@/lib/api-client/payload'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 function buildUrl(path: string) {
-  if (!API_BASE_URL) return path
   return new URL(path, API_BASE_URL).toString()
 }
 
@@ -42,7 +42,7 @@ export async function getBookingsListServer(query: Partial<BookingQuery> = {}) {
     throw new Error('Unable to load bookings.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }
 
 export async function getBookingDetailServer(bookingId: string) {
@@ -57,5 +57,5 @@ export async function getBookingDetailServer(bookingId: string) {
     throw new Error('Unable to load booking details.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }

@@ -9,13 +9,13 @@
   "types": "dist/types/widget-loader.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/types/widget-loader.d.ts",
       "import": "./dist/embed.js",
-      "require": "./dist/embed.umd.cjs",
-      "types": "./dist/types/widget-loader.d.ts"
+      "require": "./dist/embed.umd.cjs"
     },
     "./sdk": {
-      "import": "./dist/sdk.js",
-      "types": "./dist/types/sdk/init.d.ts"
+      "types": "./dist/types/sdk/init.d.ts",
+      "import": "./dist/sdk.js"
     }
   },
   "files": [

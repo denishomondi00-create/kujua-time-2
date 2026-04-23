@@ -3,7 +3,7 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 
 @Schema({ timestamps: true, collection: 'forms' })
 export class Form extends Document {
-  @Prop({ required: true, index: true })
+  @Prop({ required: true })
   workspaceId: string;
 
   @Prop({ required: true, trim: true })

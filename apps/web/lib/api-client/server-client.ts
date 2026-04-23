@@ -19,7 +19,9 @@ function buildHeaders(headers?: HeadersInit, authToken?: string) {
 export const serverApiClient = {
   async request<T>(path: string, config: RequestConfig = {}) {
     const store = await cookies()
-    const accessToken = config.auth === "none" ? undefined : store.get("kt_access_token")?.value
+    const accessToken = config.auth === "none"
+      ? undefined
+      : store.get("access_token")?.value ?? store.get("kt_access_token")?.value
 
     const response = await fetch(apiUrl(path), {
       method: config.method ?? "GET",

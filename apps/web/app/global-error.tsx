@@ -108,7 +108,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
           <p>An unexpected error occurred. Please try again or return to the homepage.</p>
           <div className="actions">
             <button className="btn-primary" onClick={reset}>Try again</button>
-            <a className="btn-secondary" href="/">Go to homepage</a>
+            <button className="btn-secondary" onClick={() => { window.location.href = '/' }} type="button">Go to homepage</button>
           </div>
           {error.digest ? <p className="digest">Error ID: {error.digest}</p> : null}
         </div>

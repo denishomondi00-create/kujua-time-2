@@ -14,6 +14,7 @@ import {
   type PaymentStatus,
   type RefundPaymentInput,
 } from '@/features/payments/schemas'
+import { unwrapApiPayload } from '@/lib/api-client/payload'
 
 export const PAYMENT_STATUS_OPTIONS: Array<{ value: PaymentStatus; label: string }> = [
   { value: 'pending', label: 'Pending' },
@@ -37,10 +38,9 @@ export const PAYMENTS_QUERY_KEYS = {
   providers: ['payments', 'providers'] as const,
 } as const
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 function buildUrl(path: string) {
-  if (!API_BASE_URL) return path
   return new URL(path, API_BASE_URL).toString()
 }
 
@@ -66,7 +66,7 @@ async function requestJson<T>(path: string, init?: RequestInit) {
     },
   })
 
-  const payload = await response.json()
+  const payload = unwrapApiPayload<T>(await response.json())
 
   if (!response.ok) {
     throw new Error(typeof payload?.message === 'string' ? payload.message : 'Payment request failed.')

@@ -68,7 +68,10 @@ export class BaseRepository<T extends Document> {
 
   async create(doc: Partial<T>, session?: ClientSession): Promise<T> {
     const [created] = await this.model.create([doc], { session });
-    return created;
+    if (!created) {
+      throw new Error('Model create returned no document.');
+    }
+    return created as T;
   }
 
   async createMany(docs: Partial<T>[], session?: ClientSession): Promise<T[]> {

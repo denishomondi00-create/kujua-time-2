@@ -1,11 +1,17 @@
 import 'server-only'
 
 import { cookies } from 'next/headers'
+import { unwrapApiPayload } from '@/lib/api-client/payload'
+import {
+  normalizeBookingsReport,
+  normalizeNoShowReport,
+  normalizeOverviewReport,
+  normalizeRevenueReport,
+} from '@/features/reports/utils'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 function buildUrl(path: string) {
-  if (!API_BASE_URL) return path
   return new URL(path, API_BASE_URL).toString()
 }
 
@@ -21,21 +27,21 @@ async function read(path: string) {
     throw new Error('Unable to load reports.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }
 
 export function getReportsOverviewServer() {
-  return read('/v1/reports/overview')
+  return read('/v1/reports/overview').then(normalizeOverviewReport)
 }
 
 export function getBookingsReportServer() {
-  return read('/v1/reports/bookings')
+  return read('/v1/reports/bookings').then(normalizeBookingsReport)
 }
 
 export function getRevenueReportServer() {
-  return read('/v1/reports/revenue')
+  return read('/v1/reports/revenue').then(normalizeRevenueReport)
 }
 
 export function getNoShowReportServer() {
-  return read('/v1/reports/no-shows')
+  return read('/v1/reports/no-shows').then(normalizeNoShowReport)
 }

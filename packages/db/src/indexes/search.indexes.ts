@@ -2,9 +2,10 @@
  * Text search and lookup indexes for user-facing search features.
  */
 import { Connection } from 'mongoose';
+import { getNativeDb } from './native-db';
 
 export async function ensureSearchIndexes(conn: Connection): Promise<void> {
-  const db = conn.db;
+  const db = getNativeDb(conn);
 
   // Client search by name and email
   await db.collection('clients').createIndex(

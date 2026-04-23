@@ -12,10 +12,11 @@ export const metadata: Metadata = {
 export default async function EventTypePreviewPage({
   params,
 }: {
-  params: { eventTypeId: string }
+  params: Promise<{ eventTypeId: string }>
 }) {
   await requireAuthenticatedUser()
-  const preview = await getEventTypePreviewServer(params.eventTypeId)
+  const { eventTypeId } = await params
+  const preview = await getEventTypePreviewServer(eventTypeId)
 
   return <EventTypePreviewPanel preview={preview} />
 }

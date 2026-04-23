@@ -23,14 +23,11 @@ export function IntakeForm({
     phone: hold.client.phone ?? "",
     notes: hold.client.notes ?? "",
   })
-  const updateHold = useUpdateBookingHoldMutation()
+  const updateHold = useUpdateBookingHoldMutation(hold.id)
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const nextHold = await updateHold.mutateAsync({
-      holdId: hold.id,
-      values,
-    })
+    const nextHold = await updateHold.mutateAsync(values)
     onCompleted(nextHold)
   }
 

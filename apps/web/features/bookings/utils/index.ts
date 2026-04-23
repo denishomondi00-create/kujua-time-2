@@ -12,6 +12,7 @@ import {
   type BookingListResponse,
   type BookingRescheduleInput,
 } from '@/features/bookings/schemas'
+import { unwrapApiPayload } from '@/lib/api-client/payload'
 
 export const BOOKING_STATUS_OPTIONS: Array<{ value: BookingStatus; label: string }> = [
   { value: 'upcoming', label: 'Upcoming' },
@@ -27,10 +28,9 @@ export const BOOKING_QUERY_KEYS = {
   detail: (bookingId: string) => ['bookings', 'detail', bookingId] as const,
 } as const
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 function buildUrl(path: string) {
-  if (!API_BASE_URL) return path
   return new URL(path, API_BASE_URL).toString()
 }
 
@@ -56,7 +56,7 @@ async function requestJson<T>(path: string, init?: RequestInit) {
     },
   })
 
-  const payload = await response.json()
+  const payload = unwrapApiPayload<T>(await response.json())
 
   if (!response.ok) {
     throw new Error(typeof payload?.message === 'string' ? payload.message : 'Booking request failed.')

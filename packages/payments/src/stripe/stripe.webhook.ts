@@ -1,7 +1,9 @@
 import { STRIPE_WEBHOOK_EVENTS } from './stripe.constants'
 
+type StripeWebhookEvent = (typeof STRIPE_WEBHOOK_EVENTS)[keyof typeof STRIPE_WEBHOOK_EVENTS]
+
 export function isRelevantStripeEvent(eventType: string): boolean {
-  return Object.values(STRIPE_WEBHOOK_EVENTS).includes(eventType as any)
+  return Object.values(STRIPE_WEBHOOK_EVENTS).includes(eventType as StripeWebhookEvent)
 }
 
 export function extractStripeSignature(

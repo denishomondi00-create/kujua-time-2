@@ -9,6 +9,24 @@
  */
 import mongoose from 'mongoose';
 import { parseWorkerEnv } from '@kujua-time/config';
+import {
+  AutomationExecutionModel,
+  AutomationRuleModel,
+  BookingHoldModel,
+  BookingModel,
+  CalendarSyncStateModel,
+  ClientModel,
+  ConnectedCalendarModel,
+  DomainEventModel,
+  EphemeralCheckoutSessionModel,
+  ExternalCalendarEventModel,
+  InvoiceModel,
+  NotificationLogModel,
+  OutgoingWebhookModel,
+  PaymentIntentInternalModel,
+  PaymentModel,
+  ReportSnapshotModel,
+} from '@kujua-time/db';
 import { buildConnectionOptions } from '@kujua-time/queue';
 import { createLogger } from '@kujua-time/observability';
 import { initSentry } from '@kujua-time/observability';
@@ -26,6 +44,30 @@ import { registerCleanupExpiryProcessor } from './processors/cleanup/cleanup-exp
 import { setupWorkerMonitoring } from './observability/worker-monitoring';
 
 const logger = createLogger('worker');
+const workerModels = [
+  AutomationExecutionModel,
+  AutomationRuleModel,
+  BookingHoldModel,
+  BookingModel,
+  CalendarSyncStateModel,
+  ClientModel,
+  ConnectedCalendarModel,
+  DomainEventModel,
+  EphemeralCheckoutSessionModel,
+  ExternalCalendarEventModel,
+  InvoiceModel,
+  NotificationLogModel,
+  OutgoingWebhookModel,
+  PaymentIntentInternalModel,
+  PaymentModel,
+  ReportSnapshotModel,
+];
+
+function registerWorkerModels(): void {
+  for (const model of workerModels) {
+    void model.modelName;
+  }
+}
 
 async function bootstrap(): Promise<void> {
   const env = parseWorkerEnv();
@@ -35,7 +77,8 @@ async function bootstrap(): Promise<void> {
 
   // MongoDB
   await mongoose.connect(env.MONGODB_URI);
-  logger.info('MongoDB connected');
+  registerWorkerModels();
+  logger.info(`MongoDB connected and worker models registered (${workerModels.length})`);
 
   // Redis connection for BullMQ
   const connection = buildConnectionOptions({ url: env.REDIS_URL });

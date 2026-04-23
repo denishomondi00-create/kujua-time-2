@@ -11,7 +11,7 @@ export class Payment extends Document {
   @Prop({ required: true, default: 'pending', enum: ['pending', 'succeeded', 'failed', 'refunded', 'partially_refunded'] }) status: string;
   @Prop({ required: true }) amount: number;
   @Prop({ required: true, default: 'USD' }) currency: string;
-  @Prop({ required: true, unique: true }) reference: string;
+  @Prop({ required: true }) reference: string;
   @Prop() providerPaymentId?: string;
   @Prop() providerCheckoutUrl?: string;
   @Prop() holdId?: string;

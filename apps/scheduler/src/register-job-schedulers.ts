@@ -2,7 +2,6 @@
  * Registers additional scheduled jobs beyond the core queue package registry.
  * This is the extension point for scheduler-specific recurring work.
  */
-import { Queue } from 'bullmq';
 import type { ConnectionOptions } from 'bullmq';
 import { createLogger } from '@kujua-time/observability';
 import { registerCalendarHealthScheduler } from './recurring/calendar-health.scheduler';

@@ -3,11 +3,11 @@ import 'server-only'
 import { cookies } from 'next/headers'
 
 import type { ClientListQuery } from '@/features/clients/schemas'
+import { unwrapApiPayload } from '@/lib/api-client/payload'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 function buildUrl(path: string) {
-  if (!API_BASE_URL) return path
   return new URL(path, API_BASE_URL).toString()
 }
 
@@ -42,7 +42,7 @@ export async function getClientsListServer(query: Partial<ClientListQuery> = {})
     throw new Error('Unable to load clients.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }
 
 export async function getClientDetailServer(clientId: string) {
@@ -57,5 +57,5 @@ export async function getClientDetailServer(clientId: string) {
     throw new Error('Unable to load client details.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }

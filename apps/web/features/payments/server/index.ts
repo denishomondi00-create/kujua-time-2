@@ -3,11 +3,11 @@ import 'server-only'
 import { cookies } from 'next/headers'
 
 import type { PaymentListQuery } from '@/features/payments/schemas'
+import { unwrapApiPayload } from '@/lib/api-client/payload'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 function buildUrl(path: string) {
-  if (!API_BASE_URL) return path
   return new URL(path, API_BASE_URL).toString()
 }
 
@@ -43,7 +43,7 @@ export async function getPaymentsListServer(query: Partial<PaymentListQuery> = {
     throw new Error('Unable to load payments.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }
 
 export async function getPaymentDetailServer(paymentId: string) {
@@ -58,7 +58,7 @@ export async function getPaymentDetailServer(paymentId: string) {
     throw new Error('Unable to load payment details.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }
 
 export async function getPaymentPayoutsServer() {
@@ -73,5 +73,5 @@ export async function getPaymentPayoutsServer() {
     throw new Error('Unable to load payouts.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }

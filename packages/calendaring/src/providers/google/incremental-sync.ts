@@ -8,7 +8,6 @@
  * - Reconcile deleted and canceled events
  * - If Google returns 410 GONE, clear local mirror and run full re-sync
  */
-import { calendar_v3 } from 'googleapis';
 import { getCalendarClient, } from './events-client';
 import { mapGoogleEventToInternal } from './availability-mapper';
 import type { GoogleOAuthConfig } from './oauth';

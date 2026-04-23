@@ -18,8 +18,8 @@ const DEFAULT_SCOPES = [
   'profile',
 ];
 
-export function createOAuth2Client(config: GoogleOAuthConfig) {
-  return new google.auth.OAuth2(config.clientId, config.clientSecret);
+export function createOAuth2Client(config: GoogleOAuthConfig, redirectUri?: string): InstanceType<typeof google.auth.OAuth2> {
+  return new google.auth.OAuth2(config.clientId, config.clientSecret, redirectUri);
 }
 
 export function getGoogleAuthUrl(
@@ -27,7 +27,7 @@ export function getGoogleAuthUrl(
   state: string,
   redirectUri: string,
 ): string {
-  const oauth2Client = createOAuth2Client(config);
+  const oauth2Client = createOAuth2Client(config, redirectUri);
 
   return oauth2Client.generateAuthUrl({
     access_type: 'offline',
@@ -49,8 +49,7 @@ export async function exchangeGoogleCode(
   accountId: string;
   email: string;
 }> {
-  const oauth2Client = createOAuth2Client(config);
-  oauth2Client.redirectUri = redirectUri;
+  const oauth2Client = createOAuth2Client(config, redirectUri);
 
   const { tokens } = await oauth2Client.getToken(code);
   oauth2Client.setCredentials(tokens);

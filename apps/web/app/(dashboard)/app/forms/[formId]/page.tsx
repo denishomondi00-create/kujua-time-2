@@ -12,17 +12,18 @@ export const metadata: Metadata = {
 export default async function FormDetailPage({
   params,
 }: {
-  params: { formId: string }
+  params: Promise<{ formId: string }>
 }) {
   await requireAuthenticatedUser()
+  const { formId } = await params
   const [form, responses] = await Promise.all([
-    getFormDetailServer(params.formId),
-    getFormResponsesServer(params.formId),
+    getFormDetailServer(formId),
+    getFormResponsesServer(formId),
   ])
 
   return (
     <div style={{ display: 'grid', gap: 20 }}>
-      <FormBuilder mode="update" formId={params.formId} initialValues={form} />
+      <FormBuilder mode="update" formId={formId} initialValues={form} />
       <FormResponsesPanel responses={responses.items} />
     </div>
   )

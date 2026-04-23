@@ -5,9 +5,10 @@
  * automation executions, audit logs, notification logs.
  */
 import { Connection } from 'mongoose';
+import { getNativeDb } from './native-db';
 
 export async function ensureTTLIndexes(conn: Connection): Promise<void> {
-  const db = conn.db;
+  const db = getNativeDb(conn);
 
   // booking_holds: expire uncompleted holds
   await db.collection('booking_holds').createIndex(

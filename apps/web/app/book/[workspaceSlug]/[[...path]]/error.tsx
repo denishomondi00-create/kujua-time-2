@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 export default function PublicBookingError({ reset }: { reset: () => void }) {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--kujua-gray-50)', display: 'grid', placeItems: 'center', padding: 24 }}>
@@ -11,7 +13,7 @@ export default function PublicBookingError({ reset }: { reset: () => void }) {
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
           <button type="button" onClick={reset} className="btn-primary">Try again</button>
-          <a href="/" className="btn-secondary">Go to homepage</a>
+          <Link href="/" className="btn-secondary">Go to homepage</Link>
         </div>
       </div>
     </div>

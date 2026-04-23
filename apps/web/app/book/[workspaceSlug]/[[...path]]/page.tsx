@@ -13,12 +13,14 @@ export default async function PublicBookingPage({
   params,
   searchParams,
 }: {
-  params: { workspaceSlug: string; path?: string[] }
-  searchParams?: { mode?: string; token?: string }
+  params: Promise<{ workspaceSlug: string; path?: string[] }>
+  searchParams?: Promise<{ mode?: string; token?: string }>
 }) {
-  const model = await getPublicBookingPageModelServer(params.workspaceSlug, params.path)
-  const mode = searchParams?.mode === 'reschedule' || searchParams?.mode === 'cancel' ? searchParams.mode : 'book'
-  const token = typeof searchParams?.token === 'string' ? searchParams.token : undefined
+  const resolvedParams = await params
+  const resolvedSearchParams = await searchParams
+  const model = await getPublicBookingPageModelServer(resolvedParams.workspaceSlug, resolvedParams.path)
+  const mode = resolvedSearchParams?.mode === 'reschedule' || resolvedSearchParams?.mode === 'cancel' ? resolvedSearchParams.mode : 'book'
+  const token = typeof resolvedSearchParams?.token === 'string' ? resolvedSearchParams.token : undefined
 
   return (
     <BookingPageShell

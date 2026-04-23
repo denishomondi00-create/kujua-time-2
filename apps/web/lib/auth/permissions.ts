@@ -1,6 +1,6 @@
 export type WorkspaceRole = "owner" | "admin" | "manager" | "member" | "viewer"
 
-const PERMISSIONS = {
+const PERMISSIONS: Record<string, WorkspaceRole[]> = {
   bookings: ["owner", "admin", "manager", "member"] satisfies WorkspaceRole[],
   clients: ["owner", "admin", "manager", "member"] satisfies WorkspaceRole[],
   payments: ["owner", "admin", "manager"] satisfies WorkspaceRole[],

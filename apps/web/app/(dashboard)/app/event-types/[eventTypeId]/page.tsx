@@ -12,10 +12,11 @@ export const metadata: Metadata = {
 export default async function EventTypeDetailPage({
   params,
 }: {
-  params: { eventTypeId: string }
+  params: Promise<{ eventTypeId: string }>
 }) {
   await requireAuthenticatedUser()
-  const eventType = await getEventTypeDetailServer(params.eventTypeId)
+  const { eventTypeId } = await params
+  const eventType = await getEventTypeDetailServer(eventTypeId)
 
   return (
     <div style={{ display: 'grid', gap: 20 }}>
@@ -23,7 +24,7 @@ export default async function EventTypeDetailPage({
         <p className="kujua-eyebrow" style={{ marginBottom: 12 }}>Edit event type</p>
         <h2 style={{ marginBottom: 8 }}>{eventType.name}</h2>
       </div>
-      <EventTypeBuilderForm mode="update" eventTypeId={params.eventTypeId} initialValues={eventType} />
+      <EventTypeBuilderForm mode="update" eventTypeId={eventTypeId} initialValues={eventType} />
     </div>
   )
 }

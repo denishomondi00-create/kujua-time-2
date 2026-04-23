@@ -3,11 +3,11 @@ import 'server-only'
 import { cookies } from 'next/headers'
 
 import type { FormListQuery } from '@/features/forms/schemas'
+import { unwrapApiPayload } from '@/lib/api-client/payload'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 function buildUrl(path: string) {
-  if (!API_BASE_URL) return path
   return new URL(path, API_BASE_URL).toString()
 }
 
@@ -41,7 +41,7 @@ export async function getFormsListServer(query: Partial<FormListQuery> = {}) {
     throw new Error('Unable to load forms.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }
 
 export async function getFormDetailServer(formId: string) {
@@ -56,7 +56,7 @@ export async function getFormDetailServer(formId: string) {
     throw new Error('Unable to load form details.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }
 
 export async function getFormResponsesServer(formId: string, page = 1, pageSize = 20) {
@@ -71,5 +71,5 @@ export async function getFormResponsesServer(formId: string, page = 1, pageSize 
     throw new Error('Unable to load form responses.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }

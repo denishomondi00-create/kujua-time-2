@@ -19,7 +19,7 @@ const ApiKeySchema = new Schema<IApiKey>(
   {
     workspaceId: { type: Schema.Types.ObjectId, required: true, ref: 'Workspace' },
     name: { type: String, required: true, trim: true },
-    keyHash: { type: String, required: true, unique: true },
+    keyHash: { type: String, required: true },
     prefix: { type: String, required: true },
     scopes: [{ type: String }],
     lastUsedAt: { type: Date },

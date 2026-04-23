@@ -3,7 +3,7 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 
 @Schema({ timestamps: true, collection: 'booking_pages' })
 export class BookingPage extends Document {
-  @Prop({ required: true, index: true })
+  @Prop({ required: true })
   workspaceId: string;
 
   @Prop({ default: '#0d4e5c' })

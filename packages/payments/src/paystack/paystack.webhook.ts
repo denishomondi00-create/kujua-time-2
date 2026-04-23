@@ -1,7 +1,9 @@
 import { PAYSTACK_WEBHOOK_EVENTS } from './paystack.constants'
 
+type PaystackWebhookEvent = (typeof PAYSTACK_WEBHOOK_EVENTS)[keyof typeof PAYSTACK_WEBHOOK_EVENTS]
+
 export function isRelevantPaystackEvent(event: string): boolean {
-  return Object.values(PAYSTACK_WEBHOOK_EVENTS).includes(event as any)
+  return Object.values(PAYSTACK_WEBHOOK_EVENTS).includes(event as PaystackWebhookEvent)
 }
 
 export function extractPaystackSignature(

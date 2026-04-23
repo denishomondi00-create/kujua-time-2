@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 
     export const metadata: Metadata = {
       title: 'Invoices',
@@ -25,7 +26,7 @@ import type { Metadata } from 'next'
 <section style={{ background: 'var(--kujua-white)', border: '1px solid var(--kujua-gray-200)', borderRadius: 24, padding: 28 }}>
   <h3 style={{ marginBottom: 10 }}>No invoices created yet</h3>
   <p style={{ marginBottom: 20 }}>Use invoices for manual billing, follow-up charges, retainers, or work that happens outside the immediate booking checkout flow.</p>
-  <a href="/app/invoices/new" className="btn-primary">Create invoice</a>
+  <Link href="/app/invoices/new" className="btn-primary">Create invoice</Link>
 </section>
 
         </div>

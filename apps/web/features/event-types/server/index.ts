@@ -3,11 +3,11 @@ import 'server-only'
 import { cookies } from 'next/headers'
 
 import type { EventTypeListQuery } from '@/features/event-types/schemas'
+import { unwrapApiPayload } from '@/lib/api-client/payload'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
 function buildUrl(path: string) {
-  if (!API_BASE_URL) return path
   return new URL(path, API_BASE_URL).toString()
 }
 
@@ -42,7 +42,7 @@ export async function getEventTypesListServer(query: Partial<EventTypeListQuery>
     throw new Error('Unable to load event types.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }
 
 export async function getEventTypeDetailServer(eventTypeId: string) {
@@ -57,7 +57,7 @@ export async function getEventTypeDetailServer(eventTypeId: string) {
     throw new Error('Unable to load event type details.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }
 
 export async function getEventTypePreviewServer(eventTypeId: string) {
@@ -72,5 +72,5 @@ export async function getEventTypePreviewServer(eventTypeId: string) {
     throw new Error('Unable to load event type preview.')
   }
 
-  return response.json()
+  return unwrapApiPayload(await response.json())
 }
