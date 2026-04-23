@@ -1,0 +1,22 @@
+.kt-prose {
+  max-width: 72ch;
+}
+
+.kt-prose > * + * {
+  margin-top: 1rem;
+}
+
+.kt-prose h2,
+.kt-prose h3 {
+  margin-top: 1.75rem;
+}
+
+.kt-prose p,
+.kt-prose li {
+  color: var(--kt-muted-foreground);
+}
+
+.kt-prose ul,
+.kt-prose ol {
+  padding-left: 1.25rem;
+}

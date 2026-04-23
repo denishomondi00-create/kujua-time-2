@@ -1,0 +1,13 @@
+Bundle summary
+==============
+
+This zip contains the generated Kujua Time monorepo folders requested for:
+- apps/web
+- apps/embed
+- apps/api
+- apps/worker
+- apps/scheduler
+- packages/* shared libraries
+
+It is a folder-scoped architecture/code bundle centered on the requested app and package trees.
+Use REQUESTED_ARTIFACT_MANIFEST.txt to verify the exact worker/scheduler/payments/messaging/shared-package coverage.

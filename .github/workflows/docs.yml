@@ -1,0 +1,20 @@
+name: Docs Check
+
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+      - "apps/docs/**"
+      - ".github/workflows/docs.yml"
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify docs directories
+        run: |
+          test -d docs
+          test -d apps/docs
+          echo "Docs structure looks good"

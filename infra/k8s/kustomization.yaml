@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kujua-time
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - web-deployment.yaml
+  - api-deployment.yaml
+  - worker-deployment.yaml
+  - scheduler-deployment.yaml
+  - docs-deployment.yaml
+  - redis-statefulset.yaml
+  - mongodb-statefulset.yaml
+  - ingress.yaml

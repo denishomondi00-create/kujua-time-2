@@ -1,0 +1,16 @@
+FROM node:20-alpine AS base
+RUN corepack enable
+WORKDIR /app
+COPY package.json pnpm-workspace.yaml turbo.json tsconfig.base.json .npmrc ./
+COPY apps ./apps
+COPY packages ./packages
+COPY .changeset ./.changeset
+COPY .github ./.github
+COPY docs ./docs
+COPY infra ./infra
+COPY scripts ./scripts
+RUN pnpm install --frozen-lockfile=false
+
+FROM base AS builder
+RUN pnpm --filter @kujua-time/embed build
+CMD ["sh", "-c", "echo embed bundle built into apps/embed/dist"]

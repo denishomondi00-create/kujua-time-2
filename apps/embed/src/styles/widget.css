@@ -1,0 +1,64 @@
+/* ─────────────────────────────────────────────────────────────
+ * @kujua-time/embed – Base widget styles
+ *
+ * Minimal reset and utility styles shared across all embed
+ * modes. Most visual styling lives in the iframe (served by
+ * apps/web), so this file only covers the host-side chrome:
+ *   - Modal backdrop / panel
+ *   - Inline container
+ *   - Floating button
+ *
+ * Mode-specific CSS is injected dynamically by each mode's
+ * theme file to avoid loading unused styles.
+ * ───────────────────────────────────────────────────────────── */
+
+/* ── Kujua Time embed namespace reset ───────────────────── */
+
+[data-kujua-embed] {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+[data-kujua-embed] *,
+[data-kujua-embed] *::before,
+[data-kujua-embed] *::after {
+  box-sizing: border-box;
+}
+
+/* ── Shared iframe base ─────────────────────────────────── */
+
+iframe[data-kujua-embed] {
+  display: block;
+  border: none;
+  overflow: hidden;
+  color-scheme: light;
+  background: transparent;
+}
+
+/* ── Reduced motion ─────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-kujua-embed],
+  [data-kujua-embed] *,
+  [data-kujua-embed] *::before,
+  [data-kujua-embed] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Print ──────────────────────────────────────────────── */
+
+@media print {
+  .kt-modal-backdrop,
+  .kt-floating-button {
+    display: none !important;
+  }
+}

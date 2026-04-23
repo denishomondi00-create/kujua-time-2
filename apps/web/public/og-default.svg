@@ -1,0 +1,14 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#F6F8FB"/>
+  <circle cx="150" cy="120" r="180" fill="#0D4E5C" fill-opacity="0.06"/>
+  <circle cx="1080" cy="520" r="180" fill="#E87A3E" fill-opacity="0.10"/>
+  <rect x="80" y="90" width="1040" height="450" rx="36" fill="white" stroke="#DDE4EA"/>
+  <rect x="130" y="150" width="72" height="72" rx="20" fill="#0D4E5C"/>
+  <path d="M153 170H163V208H153V170Z" fill="white"/>
+  <path d="M171 170H194V180H181V208H171V170Z" fill="#E87A3E"/>
+  <text x="240" y="190" fill="#13212A" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700">Kujua Time</text>
+  <text x="130" y="290" fill="#13212A" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="700">Scheduling, payments,</text>
+  <text x="130" y="370" fill="#13212A" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="700">and client workflows.</text>
+  <text x="130" y="450" fill="#5D6A75" font-family="Arial, Helvetica, sans-serif" font-size="34">Book the appointment, collect the payment, create the client record,</text>
+  <text x="130" y="495" fill="#5D6A75" font-family="Arial, Helvetica, sans-serif" font-size="34">and run the reminders automatically.</text>
+</svg>

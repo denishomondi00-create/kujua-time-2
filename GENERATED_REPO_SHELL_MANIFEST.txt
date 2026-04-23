@@ -1,0 +1,21 @@
+Generated repo shell manifest
+=============================
+
+Added around the uploaded core bundle:
+
+- apps/docs/*
+- infra/docker/*
+- infra/compose/*
+- infra/nginx/*
+- infra/terraform/*
+- infra/k8s/*
+- infra/monitoring/*
+- scripts/*
+- docs/*
+- .changeset/*
+- .github/workflows/*
+- .github/pull_request_template.md
+- root workspace/config files
+
+Purpose:
+Turn the existing app and package export into a full monorepo scaffold with operational structure.

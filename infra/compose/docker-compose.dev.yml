@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  web:
+    image: node:20-alpine
+    working_dir: /workspace
+    command: sh -lc "corepack enable && pnpm install && pnpm --filter @kujua-time/web dev"
+    volumes:
+      - ../..:/workspace
+    ports:
+      - "3000:3000"
+    env_file:
+      - ../../.env
+
+  api:
+    image: node:20-alpine
+    working_dir: /workspace
+    command: sh -lc "corepack enable && pnpm install && pnpm --filter @kujua-time/api start:dev"
+    volumes:
+      - ../..:/workspace
+    ports:
+      - "4000:4000"
+    env_file:
+      - ../../.env
+
+  docs:
+    image: node:20-alpine
+    working_dir: /workspace
+    command: sh -lc "corepack enable && pnpm install && pnpm --filter @kujua-time/docs dev"
+    volumes:
+      - ../..:/workspace
+    ports:
+      - "3001:3001"
+    env_file:
+      - ../../.env

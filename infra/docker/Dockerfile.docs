@@ -1,0 +1,23 @@
+FROM node:20-alpine AS base
+RUN corepack enable
+WORKDIR /app
+COPY package.json pnpm-workspace.yaml turbo.json tsconfig.base.json .npmrc ./
+COPY apps ./apps
+COPY packages ./packages
+COPY .changeset ./.changeset
+COPY .github ./.github
+COPY docs ./docs
+COPY infra ./infra
+COPY scripts ./scripts
+RUN pnpm install --frozen-lockfile=false
+
+FROM base AS builder
+RUN pnpm --filter @kujua-time/docs build
+
+FROM node:20-alpine AS runner
+RUN corepack enable
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=builder /app /app
+EXPOSE 3001
+CMD ["pnpm", "--filter", "@kujua-time/docs", "start"]

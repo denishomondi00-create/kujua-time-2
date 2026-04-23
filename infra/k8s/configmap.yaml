@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kujua-time-config
+  namespace: kujua-time
+data:
+  NODE_ENV: "production"
+  APP_ENV: "production"
+  API_URL: "https://api.example.com"
+  NEXT_PUBLIC_API_URL: "https://api.example.com"

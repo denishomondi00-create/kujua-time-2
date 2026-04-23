@@ -1,0 +1,120 @@
+Kujua Time Requested Artifact Manifest
+====================================
+
+Total requested items checked: 114
+Missing items: 0
+
+[OK] apps/worker/src/bootstrap.ts
+[OK] apps/worker/src/processors/automation/automation-dispatch.processor.ts
+[OK] apps/worker/src/processors/automation/automation-execute.processor.ts
+[OK] apps/worker/src/processors/notifications/email.processor.ts
+[OK] apps/worker/src/processors/notifications/sms.processor.ts
+[OK] apps/worker/src/processors/notifications/whatsapp.processor.ts
+[OK] apps/worker/src/processors/calendar-sync/calendar-sync.processor.ts
+[OK] apps/worker/src/processors/payments/payments-reconcile.processor.ts
+[OK] apps/worker/src/processors/invoices/invoices-generate.processor.ts
+[OK] apps/worker/src/processors/webhooks/webhooks-deliver.processor.ts
+[OK] apps/worker/src/processors/analytics/analytics-project.processor.ts
+[OK] apps/worker/src/processors/cleanup/cleanup-expiry.processor.ts
+[OK] apps/worker/src/flows/booking-followup.flow.ts
+[OK] apps/worker/src/jobs/ (1 files)
+[OK] apps/worker/src/observability/worker-monitoring.ts
+[OK] apps/worker/package.json
+[OK] apps/worker/tsconfig.json
+[OK] apps/scheduler/src/bootstrap.ts
+[OK] apps/scheduler/src/register-job-schedulers.ts
+[OK] apps/scheduler/src/recurring/calendar-health.scheduler.ts
+[OK] apps/scheduler/src/recurring/cleanup-expired-holds.scheduler.ts
+[OK] apps/scheduler/src/recurring/report-rollups.scheduler.ts
+[OK] apps/scheduler/src/recurring/retry-stuck-events.scheduler.ts
+[OK] apps/scheduler/package.json
+[OK] apps/scheduler/tsconfig.json
+[OK] packages/payments/src/ports/payment-gateway.port.ts
+[OK] packages/payments/src/stripe/stripe.adapter.ts
+[OK] packages/payments/src/stripe/stripe.webhook.ts
+[OK] packages/payments/src/stripe/stripe.mapper.ts
+[OK] packages/payments/src/stripe/stripe.constants.ts
+[OK] packages/payments/src/paystack/paystack.adapter.ts
+[OK] packages/payments/src/paystack/paystack.webhook.ts
+[OK] packages/payments/src/paystack/paystack.mapper.ts
+[OK] packages/payments/src/paystack/paystack.constants.ts
+[OK] packages/payments/src/shared/payment.types.ts
+[OK] packages/payments/src/shared/payment-status.ts
+[OK] packages/payments/src/shared/payment-errors.ts
+[OK] packages/payments/package.json
+[OK] packages/payments/tsconfig.json
+[OK] packages/messaging/src/email/email.port.ts
+[OK] packages/messaging/src/email/postmark/postmark.adapter.ts
+[OK] packages/messaging/src/email/postmark/postmark.webhook.ts
+[OK] packages/messaging/src/email/resend/resend.adapter.ts
+[OK] packages/messaging/src/email/resend/resend.webhook.ts
+[OK] packages/messaging/src/email/render/render-email.ts
+[OK] packages/messaging/src/sms/sms.port.ts
+[OK] packages/messaging/src/sms/providers/ (1 files)
+[OK] packages/messaging/src/whatsapp/whatsapp.port.ts
+[OK] packages/messaging/src/whatsapp/providers/ (1 files)
+[OK] packages/messaging/src/shared/notification.types.ts
+[OK] packages/messaging/package.json
+[OK] packages/messaging/tsconfig.json
+[OK] packages/config/src/env/web.env.ts
+[OK] packages/config/src/env/api.env.ts
+[OK] packages/config/src/env/worker.env.ts
+[OK] packages/config/src/env/scheduler.env.ts
+[OK] packages/config/src/constants/plans.ts
+[OK] packages/config/src/constants/roles.ts
+[OK] packages/config/src/constants/booking-status.ts
+[OK] packages/config/src/constants/payment-status.ts
+[OK] packages/config/src/constants/queue-names.ts
+[OK] packages/config/src/constants/webhook-events.ts
+[OK] packages/config/src/feature-flags/flags.ts
+[OK] packages/config/src/index.ts
+[OK] packages/config/package.json
+[OK] packages/config/tsconfig.json
+[OK] packages/types/src/booking.types.ts
+[OK] packages/types/src/client.types.ts
+[OK] packages/types/src/payment.types.ts
+[OK] packages/types/src/automation.types.ts
+[OK] packages/types/src/workspace.types.ts
+[OK] packages/types/src/calendar.types.ts
+[OK] packages/types/src/api.types.ts
+[OK] packages/types/package.json
+[OK] packages/types/tsconfig.json
+[OK] packages/validation/src/auth/ (3 files)
+[OK] packages/validation/src/bookings/ (2 files)
+[OK] packages/validation/src/clients/ (1 files)
+[OK] packages/validation/src/event-types/ (1 files)
+[OK] packages/validation/src/forms/ (1 files)
+[OK] packages/validation/src/payments/ (1 files)
+[OK] packages/validation/src/index.ts
+[OK] packages/validation/package.json
+[OK] packages/validation/tsconfig.json
+[OK] packages/auth/src/jwt/ (2 files)
+[OK] packages/auth/src/sessions/ (1 files)
+[OK] packages/auth/src/rbac/ (1 files)
+[OK] packages/auth/src/oauth/ (1 files)
+[OK] packages/auth/src/hashing/ (1 files)
+[OK] packages/auth/src/index.ts
+[OK] packages/auth/package.json
+[OK] packages/auth/tsconfig.json
+[OK] packages/storage/src/ports/ (1 files)
+[OK] packages/storage/src/s3/ (1 files)
+[OK] packages/storage/src/r2/ (1 files)
+[OK] packages/storage/src/signed-urls/ (1 files)
+[OK] packages/storage/src/index.ts
+[OK] packages/storage/package.json
+[OK] packages/storage/tsconfig.json
+[OK] packages/notifications/src/compose/ (1 files)
+[OK] packages/notifications/src/templates/ (1 files)
+[OK] packages/notifications/src/payloads/ (1 files)
+[OK] packages/notifications/src/index.ts
+[OK] packages/notifications/package.json
+[OK] packages/notifications/tsconfig.json
+[OK] packages/ui/src/components/ (1 files)
+[OK] packages/ui/src/tokens/ (2 files)
+[OK] packages/ui/src/hooks/ (1 files)
+[OK] packages/ui/src/index.ts
+[OK] packages/ui/package.json
+[OK] packages/ui/tsconfig.json
+[OK] packages/analytics/ (5 files)
+[OK] packages/observability/ (7 files)
+[OK] packages/email-templates/ (8 files)

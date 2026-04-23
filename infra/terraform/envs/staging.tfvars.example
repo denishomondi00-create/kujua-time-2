@@ -1,0 +1,2 @@
+environment = "staging"
+domain_name = "staging.kujua-time.example"

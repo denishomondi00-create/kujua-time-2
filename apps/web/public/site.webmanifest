@@ -1,0 +1,15 @@
+{
+  "name": "Kujua Time",
+  "short_name": "Kujua Time",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f8fb",
+  "theme_color": "#0d4e5c",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "128x128",
+      "type": "image/svg+xml"
+    }
+  ]
+}

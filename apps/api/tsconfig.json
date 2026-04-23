@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "target": "ES2022",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@/*": ["src/*"],
+      "@kujua-time/config": ["../../packages/config/src"],
+      "@kujua-time/types": ["../../packages/types/src"],
+      "@kujua-time/validation": ["../../packages/validation/src"],
+      "@kujua-time/db": ["../../packages/db/src"],
+      "@kujua-time/redis": ["../../packages/redis/src"],
+      "@kujua-time/queue": ["../../packages/queue/src"],
+      "@kujua-time/auth": ["../../packages/auth/src"],
+      "@kujua-time/calendaring": ["../../packages/calendaring/src"],
+      "@kujua-time/payments": ["../../packages/payments/src"],
+      "@kujua-time/messaging": ["../../packages/messaging/src"],
+      "@kujua-time/automation": ["../../packages/automation/src"],
+      "@kujua-time/notifications": ["../../packages/notifications/src"],
+      "@kujua-time/storage": ["../../packages/storage/src"],
+      "@kujua-time/observability": ["../../packages/observability/src"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test"]
+}

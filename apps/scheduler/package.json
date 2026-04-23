@@ -1,0 +1,27 @@
+{
+  "name": "@kujua-time/scheduler",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Kujua Time BullMQ scheduler — registers recurring jobs centrally, does NOT execute business logic",
+  "scripts": {
+    "dev": "ts-node -r tsconfig-paths/register src/bootstrap.ts",
+    "build": "tsc",
+    "start": "node dist/bootstrap.js",
+    "start:dev": "ts-node -r tsconfig-paths/register src/bootstrap.ts",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "bullmq": "^5.13.0",
+    "ioredis": "^5.4.0",
+    "@kujua-time/queue": "workspace:*",
+    "@kujua-time/config": "workspace:*",
+    "@kujua-time/observability": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/node": "^22.9.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
+  }
+}

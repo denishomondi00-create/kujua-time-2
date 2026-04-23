@@ -1,0 +1,44 @@
+{
+  "name": "@kujua-time/embed",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Embeddable booking widget for Kujua Time \u2013 modal, inline, and floating button modes.",
+  "type": "module",
+  "main": "dist/embed.umd.cjs",
+  "module": "dist/embed.js",
+  "types": "dist/types/widget-loader.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/embed.js",
+      "require": "./dist/embed.umd.cjs",
+      "types": "./dist/types/widget-loader.d.ts"
+    },
+    "./sdk": {
+      "import": "./dist/sdk.js",
+      "types": "./dist/types/sdk/init.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.0",
+    "vite-plugin-css-injected-by-js": "^3.5.0",
+    "vite-plugin-dts": "^4.3.0",
+    "terser": "^5.39.0"
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ]
+}
