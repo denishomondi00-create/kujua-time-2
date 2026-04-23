@@ -1,8 +1,13 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useMemo, useState } from 'react'
+import { LoaderCircle, LogOut } from 'lucide-react'
+
+import { useLogoutMutation } from '@/features/auth/mutations'
+import { AUTH_REDIRECTS, getAuthErrorMessage } from '@/features/auth/utils'
 
 const navigation = [
   {
@@ -35,7 +40,9 @@ function isActive(pathname: string, href: string) {
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const logoutMutation = useLogoutMutation()
 
   const currentSection = useMemo(() => {
     for (const group of navigation) {
@@ -45,6 +52,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
     return 'Dashboard'
   }, [pathname])
+
+  const handleLogout = async () => {
+    try {
+      await logoutMutation.mutateAsync()
+      router.replace(AUTH_REDIRECTS.logoutFallback)
+      router.refresh()
+    } catch (error) {
+      console.error(getAuthErrorMessage(error))
+    }
+  }
 
   return (
     <div
@@ -209,6 +226,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <Link href="/app/event-types/new" className="btn-primary" style={{ padding: '12px 18px' }}>
               Create event type
             </Link>
+            <button
+              type="button"
+              onClick={handleLogout}
+              disabled={logoutMutation.isPending}
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--kujua-gray-200)] bg-[var(--kujua-white)] px-4 py-3 text-sm font-semibold text-[var(--kujua-charcoal)] transition hover:bg-[var(--kujua-gray-100)] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {logoutMutation.isPending ? (
+                <LoaderCircle className="h-4 w-4 animate-spin" />
+              ) : (
+                <LogOut className="h-4 w-4" />
+              )}
+              Log out
+            </button>
           </div>
         </header>
 
@@ -249,6 +279,27 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   </div>
                 </div>
               ))}
+              <button
+                type="button"
+                onClick={handleLogout}
+                disabled={logoutMutation.isPending}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 10,
+                  width: '100%',
+                  padding: '12px 16px',
+                  borderRadius: 12,
+                  border: '1px solid var(--kujua-gray-200)',
+                  background: 'var(--kujua-white)',
+                  color: 'var(--kujua-charcoal)',
+                  fontWeight: 600,
+                }}
+              >
+                {logoutMutation.isPending ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <LogOut className="h-4 w-4" />}
+                Log out
+              </button>
             </div>
           </div>
         )}
