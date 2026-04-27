@@ -48,12 +48,15 @@ services:
     build:
       context: ../..
       dockerfile: infra/docker/Dockerfile.web
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://kujuatime.com}
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-https://kujuatime.com}
     env_file:
       - ../../.env
     depends_on:
       - api
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:4000"
 
   docs:
     build:

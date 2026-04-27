@@ -73,6 +73,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         background: 'var(--kujua-gray-100)',
       }}
     >
+      {/* Desktop sidebar */}
       <aside
         className="dashboard-sidebar"
         style={{
@@ -83,6 +84,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           flexDirection: 'column',
           gap: 18,
           borderRight: '1px solid rgba(255,255,255,0.06)',
+          overflowY: 'auto',
         }}
       >
         <Link href="/" className="kujua-brand-link kujua-brand-link-compact" style={{ display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none', padding: '6px 8px', borderRadius: 14 }}>
@@ -91,9 +93,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             alt="Kujua Time logo"
             width={52}
             height={52}
-            style={{ width: 52, height: 52, borderRadius: 14 }}
+            style={{ width: 52, height: 52, borderRadius: 14, flexShrink: 0 }}
           />
-          <div>
+          <div style={{ minWidth: 0 }}>
             <div className="kujua-wordmark kujua-wordmark-light kujua-wordmark-stacked" style={{ fontSize: '1.14rem' }}>
               <span>Kujua</span>
               <span className="kujua-wordmark-accent">Time</span>
@@ -181,8 +183,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
       </aside>
 
+      {/* Main content column */}
       <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column' }}>
         <header
+          className="dashboard-header"
           style={{
             position: 'sticky',
             top: 0,
@@ -190,94 +194,129 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: 16,
-            padding: '18px 24px',
-            background: 'rgba(244,246,248,0.94)',
+            gap: 12,
+            padding: '16px 24px',
+            background: 'rgba(244,246,248,0.96)',
             backdropFilter: 'blur(12px)',
             borderBottom: '1px solid var(--kujua-gray-200)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+          {/* Left: hamburger + title */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0, flex: 1 }}>
             <button
               type="button"
-              onClick={() => setMobileNavOpen((value) => !value)}
+              onClick={() => setMobileNavOpen((v) => !v)}
               style={{
                 display: 'none',
-                width: 42,
-                height: 42,
-                borderRadius: 12,
+                flexShrink: 0,
+                width: 40,
+                height: 40,
+                borderRadius: 10,
                 border: '1px solid var(--kujua-gray-200)',
                 background: 'var(--kujua-white)',
                 color: 'var(--kujua-charcoal)',
+                cursor: 'pointer',
+                fontSize: '1.1rem',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
               className="dashboard-mobile-toggle"
               aria-label="Toggle navigation"
             >
-              ☰
+              {mobileNavOpen ? '✕' : '☰'}
             </button>
             <div style={{ minWidth: 0 }}>
-              <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--kujua-gray-600)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              <p style={{ margin: 0, fontSize: '0.72rem', color: 'var(--kujua-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 Dashboard
               </p>
-              <h1 style={{ fontSize: '1.5rem', margin: '4px 0 0' }}>{currentSection}</h1>
+              <h1
+                className="dashboard-header-title"
+                style={{ fontSize: '1.4rem', margin: '2px 0 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+              >
+                {currentSection}
+              </h1>
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+          {/* Right: search + actions */}
+          <div className="dashboard-header-actions" style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
             <input
               type="search"
-              placeholder="Search bookings, clients, invoices..."
-              className="kujua-input"
-              style={{ width: 'min(340px, 100%)', background: 'var(--kujua-white)' }}
+              placeholder="Search…"
+              className="kujua-input dashboard-header-search"
+              style={{ width: 'clamp(160px, 22vw, 320px)', background: 'var(--kujua-white)' }}
             />
-            <Link href="/app/event-types/new" className="btn-primary" style={{ padding: '12px 18px' }}>
-              Create event type
+            <Link
+              href="/app/event-types/new"
+              className="btn-primary dashboard-create-btn"
+              style={{ padding: '11px 16px', whiteSpace: 'nowrap', flexShrink: 0 }}
+            >
+              <span className="dashboard-create-btn-text">New event type</span>
+              <span className="dashboard-create-btn-icon" style={{ display: 'none', fontSize: '1.2rem', lineHeight: 1 }}>＋</span>
             </Link>
             <button
               type="button"
               onClick={handleLogout}
               disabled={logoutMutation.isPending}
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--kujua-gray-200)] bg-[var(--kujua-white)] px-4 py-3 text-sm font-semibold text-[var(--kujua-charcoal)] transition hover:bg-[var(--kujua-gray-100)] disabled:cursor-not-allowed disabled:opacity-60"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '10px 14px',
+                borderRadius: 9999,
+                border: '1px solid var(--kujua-gray-200)',
+                background: 'var(--kujua-white)',
+                color: 'var(--kujua-charcoal)',
+                fontSize: '0.875rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                flexShrink: 0,
+                opacity: logoutMutation.isPending ? 0.6 : 1,
+              }}
             >
               {logoutMutation.isPending ? (
                 <LoaderCircle className="h-4 w-4 animate-spin" />
               ) : (
                 <LogOut className="h-4 w-4" />
               )}
-              Log out
+              <span className="dashboard-logout-text">Log out</span>
             </button>
           </div>
         </header>
 
+        {/* Mobile nav drawer — only in DOM when open, CSS shows/hides per breakpoint */}
         {mobileNavOpen && (
           <div
+            className="dashboard-mobile-drawer"
             style={{
               display: 'none',
-              padding: '18px 24px',
               borderBottom: '1px solid var(--kujua-gray-200)',
               background: 'var(--kujua-white)',
+              overflowY: 'auto',
+              maxHeight: 'calc(100vh - 64px)',
             }}
-            className="dashboard-mobile-drawer"
           >
-            <div style={{ display: 'grid', gap: 18 }}>
+            <div style={{ padding: '16px 20px', display: 'grid', gap: 16 }}>
               {navigation.map((group) => (
                 <div key={group.heading}>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--kujua-gray-400)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--kujua-gray-400)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
                     {group.heading}
                   </div>
-                  <div style={{ display: 'grid', gap: 6 }}>
+                  <div style={{ display: 'grid', gap: 4 }}>
                     {group.items.map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
                         onClick={() => setMobileNavOpen(false)}
                         style={{
-                          padding: '10px 12px',
+                          padding: '11px 14px',
                           borderRadius: 10,
                           textDecoration: 'none',
                           background: isActive(pathname, item.href) ? 'var(--kujua-gray-100)' : 'transparent',
                           color: isActive(pathname, item.href) ? 'var(--kujua-primary-teal)' : 'var(--kujua-gray-800)',
                           fontWeight: 600,
+                          fontSize: '0.9375rem',
+                          borderLeft: isActive(pathname, item.href) ? '3px solid var(--kujua-primary-teal)' : '3px solid transparent',
                         }}
                       >
                         {item.label}
@@ -302,6 +341,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   background: 'var(--kujua-white)',
                   color: 'var(--kujua-charcoal)',
                   fontWeight: 600,
+                  cursor: 'pointer',
                 }}
               >
                 {logoutMutation.isPending ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <LogOut className="h-4 w-4" />}
@@ -311,26 +351,62 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         )}
 
-        <main style={{ padding: '24px' }}>{children}</main>
+        <main className="dashboard-main" style={{ padding: '24px' }}>{children}</main>
       </div>
 
       <style>{`
+        /* ── Tablet: hide sidebar, show hamburger ── */
         @media (max-width: 1024px) {
           .dashboard-shell {
             grid-template-columns: 1fr !important;
           }
-
           .dashboard-sidebar {
             display: none !important;
           }
-
-          .dashboard-mobile-toggle,
-          .dashboard-mobile-drawer {
+          .dashboard-mobile-toggle {
             display: inline-flex !important;
           }
-
           .dashboard-mobile-drawer {
             display: block !important;
+          }
+        }
+
+        /* ── Small tablet / large phone ── */
+        @media (max-width: 768px) {
+          .dashboard-header {
+            padding: 12px 16px !important;
+          }
+          .dashboard-header-search {
+            display: none !important;
+          }
+          .dashboard-main {
+            padding: 16px !important;
+          }
+        }
+
+        /* ── Phone ── */
+        @media (max-width: 480px) {
+          .dashboard-header {
+            padding: 10px 12px !important;
+            gap: 8px !important;
+          }
+          .dashboard-header-title {
+            font-size: 1.15rem !important;
+          }
+          .dashboard-create-btn-text {
+            display: none !important;
+          }
+          .dashboard-create-btn-icon {
+            display: inline !important;
+          }
+          .dashboard-logout-text {
+            display: none !important;
+          }
+          .dashboard-create-btn {
+            padding: 10px 12px !important;
+          }
+          .dashboard-main {
+            padding: 12px !important;
           }
         }
       `}</style>

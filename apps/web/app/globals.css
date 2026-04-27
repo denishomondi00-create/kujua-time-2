@@ -353,7 +353,44 @@
   .kujua-brand-link-compact .kujua-wordmark {
     font-size: 1.2rem !important;
   }
+
+  /* Auth form: collapse 2-col grids to 1 col on tablet/mobile */
+  .auth-form-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Dashboard: reduce content padding */
+  .dashboard-main {
+    padding: 16px !important;
+  }
+
+  /* Dashboard header: hide search on smaller screens */
+  .dashboard-header-search {
+    display: none !important;
+  }
+
+  /* Dashboard header: reduce padding */
+  .dashboard-header {
+    padding: 14px 16px !important;
+  }
+
+  /* Dashboard header: wrap actions */
+  .dashboard-header-actions {
+    gap: 8px !important;
+  }
+
+  /* Footer: stack bottom row */
+  .footer-bottom {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .footer-legal-links {
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+  }
 }
+
 @media (max-width: 480px) {
   :root { --kujua-section-py: 48px; --kujua-container-px: 16px; }
 
@@ -375,5 +412,35 @@
 
   .kujua-brand-link-compact .kujua-wordmark {
     font-size: 1.04rem !important;
+  }
+
+  /* Dashboard: tighten content further on phones */
+  .dashboard-main {
+    padding: 12px !important;
+  }
+
+  .dashboard-header {
+    padding: 12px 14px !important;
+    gap: 10px !important;
+  }
+
+  /* Dashboard header: hide create-event button text on very small screens */
+  .dashboard-create-btn-text {
+    display: none !important;
+  }
+
+  /* Dashboard header title smaller */
+  .dashboard-header-title {
+    font-size: 1.2rem !important;
+  }
+
+  /* Auth form: full-width inputs */
+  .kujua-input {
+    font-size: 16px !important; /* prevents iOS zoom */
+  }
+
+  /* Footer legal links: 2-per-row */
+  .footer-legal-links {
+    gap: 10px !important;
   }
 }

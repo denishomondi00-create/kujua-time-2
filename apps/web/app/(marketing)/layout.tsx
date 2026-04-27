@@ -615,6 +615,7 @@ function Footer() {
         </div>
 
         <div
+          className="footer-bottom"
           style={{
             borderTop: '1px solid rgba(255,255,255,0.08)',
             paddingTop: '32px',
@@ -628,7 +629,7 @@ function Footer() {
           <p style={{ fontSize: '0.875rem', color: 'var(--kujua-gray-400)' }}>
             © {new Date().getFullYear()} Kujua Time. All rights reserved.
           </p>
-          <div style={{ display: 'flex', gap: '24px' }}>
+          <div className="footer-legal-links" style={{ display: 'flex', gap: '24px' }}>
             {[
               { label: 'Privacy Policy', href: '/privacy' },
               { label: 'Terms of Service', href: '/terms' },

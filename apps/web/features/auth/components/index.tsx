@@ -145,7 +145,7 @@ export function SignupForm({ onSuccessRedirect = AUTH_REDIRECTS.afterSignup }: {
     <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 18 }}>
       {mutation.isError ? <InlineMessage tone="error">{getAuthErrorMessage(mutation.error)}</InlineMessage> : null}
 
-      <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
+      <div className="auth-form-row" style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
         <Field label="First name" htmlFor="signup-first-name" error={form.formState.errors.firstName?.message}>
           <input id="signup-first-name" className="kujua-input" autoComplete="given-name" {...form.register('firstName')} />
         </Field>
@@ -162,7 +162,7 @@ export function SignupForm({ onSuccessRedirect = AUTH_REDIRECTS.afterSignup }: {
         <input id="signup-email" className="kujua-input" type="email" autoComplete="email" {...form.register('email')} />
       </Field>
 
-      <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
+      <div className="auth-form-row" style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
         <Field label="Password" htmlFor="signup-password" error={form.formState.errors.password?.message}>
           <input id="signup-password" className="kujua-input" type="password" autoComplete="new-password" {...form.register('password')} />
         </Field>

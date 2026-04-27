@@ -12,6 +12,10 @@ COPY scripts ./scripts
 RUN pnpm install --frozen-lockfile=false
 
 FROM base AS builder
+ARG NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_APP_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 RUN pnpm --filter @kujua-time/web build
 
 FROM node:20-alpine AS runner
