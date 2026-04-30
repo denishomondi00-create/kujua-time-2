@@ -14,6 +14,7 @@ import { EventTypesModule } from '../event-types/event-types.module';
 import { AvailabilityModule } from '../availability/availability.module';
 import { ClientsModule } from '../clients/clients.module';
 import { BookingHoldsModule } from '../booking-holds/booking-holds.module';
+import { PaymentsModule } from '../payments/payments.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { BookingHoldsModule } from '../booking-holds/booking-holds.module';
     AvailabilityModule,
     ClientsModule,
     BookingHoldsModule,
+    PaymentsModule,
   ],
   controllers: [BookingsController, PublicBookingsController, AdminBookingsController],
   providers: [

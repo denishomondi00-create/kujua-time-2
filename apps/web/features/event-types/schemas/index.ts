@@ -21,7 +21,10 @@ export const eventTypeListQuerySchema = z.object({
 export const eventTypePaymentSchema = z.object({
   required: z.boolean().default(false),
   mode: z.enum(['free', 'deposit', 'full']).default('free'),
-  amount: z.number().nonnegative().optional().nullable(),
+  amount: z.preprocess(
+    (value) => (typeof value === 'number' && Number.isNaN(value)) || value === '' ? null : value,
+    z.number().nonnegative().optional().nullable(),
+  ),
   currency: z.string().default('USD'),
 })
 

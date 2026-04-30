@@ -16,7 +16,15 @@ export default async function EventTypePreviewPage({
 }) {
   await requireAuthenticatedUser()
   const { eventTypeId } = await params
-  const preview = await getEventTypePreviewServer(eventTypeId)
 
+  if (!eventTypeId || eventTypeId === 'undefined') {
+    return (
+      <div style={{ padding: 20, textAlign: 'center' }}>
+        <p>Invalid event type. Please return to the dashboard.</p>
+      </div>
+    )
+  }
+
+  const preview = await getEventTypePreviewServer(eventTypeId)
   return <EventTypePreviewPanel preview={preview} />
 }

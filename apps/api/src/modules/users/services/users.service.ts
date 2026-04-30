@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import { UsersRepository } from '../repositories/users.repository'
 import { UpdateUserDto } from '../dto/update-user.dto'
+import { WorkspacesService } from '../../workspaces/services/workspaces.service'
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly repo: UsersRepository) {}
+  constructor(
+    private readonly repo: UsersRepository,
+    private readonly workspacesService: WorkspacesService,
+  ) {}
 
   async list() {
     return this.repo.findMany()
@@ -27,12 +31,25 @@ export class UsersService {
   }
 
   async createDefaultWorkspace(userId: string, businessName: string) {
-    const slug = businessName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
-    return { id: `ws_${userId}`, name: businessName, slug, plan: 'free' }
+    const existing = await this.workspacesService.findByOwnerId(userId)
+    if (existing) return existing
+
+    const slug = await this.buildUniqueWorkspaceSlug(businessName)
+    return this.workspacesService.create({
+      name: businessName,
+      slug,
+      ownerId: userId,
+      plan: 'free',
+      timezone: 'Africa/Nairobi',
+      tagline: 'Book a time that works for you.',
+    })
   }
 
   async getPrimaryWorkspace(userId: string) {
-    return { id: `ws_${userId}`, name: 'My Business', slug: 'my-business', plan: 'free' }
+    const existing = await this.workspacesService.findByOwnerId(userId)
+    if (existing) return existing
+
+    return this.createDefaultWorkspace(userId, 'My Business')
   }
 
   async revokeRefreshToken(_token: string) {}
@@ -46,4 +63,17 @@ export class UsersService {
   }
 
   async verifyEmailToken(_token: string) {}
+
+  private async buildUniqueWorkspaceSlug(name: string) {
+    const base = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'workspace'
+    let slug = base
+    let suffix = 2
+
+    while (await this.workspacesService.findBySlug(slug)) {
+      slug = `${base}-${suffix}`
+      suffix += 1
+    }
+
+    return slug
+  }
 }

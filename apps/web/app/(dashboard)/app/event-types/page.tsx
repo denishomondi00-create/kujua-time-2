@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 export default async function EventTypesPage() {
-  await requireAuthenticatedUser()
+  const session = await requireAuthenticatedUser()
   const eventTypes = await getEventTypesListServer()
 
   return (
@@ -24,7 +24,7 @@ export default async function EventTypesPage() {
         <Link href="/app/event-types/new" className="btn-primary">Create event type</Link>
       </div>
 
-      {eventTypes.items.length ? <EventTypesGrid items={eventTypes.items} /> : <EventTypesEmptyState />}
+      {eventTypes.items.length ? <EventTypesGrid items={eventTypes.items} workspaceSlug={session.workspace?.slug} /> : <EventTypesEmptyState />}
     </div>
   )
 }

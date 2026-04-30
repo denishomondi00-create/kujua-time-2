@@ -134,7 +134,7 @@ export function FormFieldEditor({ field, onChange, onRemove }: FieldEditorProps)
 
 type FormBuilderProps = {
   mode: 'create' | 'update'
-  initialValues?: Partial<FormCreateInput>
+  initialValues?: Partial<Omit<FormCreateInput, 'description'> & { description?: string | null }>
   formId?: string
   onSuccess?(formId: string): void
 }

@@ -7,6 +7,8 @@ export class PaymentMapper {
       ...value,
       _id: undefined,
       __v: undefined,
+      createdAt: value.createdAt instanceof Date ? value.createdAt.toISOString() : value.createdAt,
+      updatedAt: value.updatedAt instanceof Date ? value.updatedAt.toISOString() : value.updatedAt,
     };
   }
 }

@@ -15,9 +15,10 @@ export function TimezoneSelect({
   const options = buildTimezoneOptions(extraTimezones)
 
   return (
-    <label className="block space-y-2">
+    <label className="block w-full space-y-2 md:w-72">
       <span className="text-sm font-semibold">Timezone</span>
       <SelectInput
+        className="min-h-11 w-full"
         value={value}
         onChange={(event) => onChange(event.target.value)}
       >

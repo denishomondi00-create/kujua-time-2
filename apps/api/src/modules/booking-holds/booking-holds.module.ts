@@ -4,9 +4,13 @@ import { BookingHold, BookingHoldSchema } from './schemas/booking-hold.schema';
 import { BookingHoldsController } from './controllers/booking-holds.controller';
 import { BookingHoldsService } from './services/booking-holds.service';
 import { BookingHoldsRepository } from './repositories/booking-holds.repository';
+import { EventTypesModule } from '../event-types/event-types.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: BookingHold.name, schema: BookingHoldSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: BookingHold.name, schema: BookingHoldSchema }]),
+    EventTypesModule,
+  ],
   controllers: [BookingHoldsController],
   providers: [BookingHoldsService, BookingHoldsRepository],
   exports: [BookingHoldsService],

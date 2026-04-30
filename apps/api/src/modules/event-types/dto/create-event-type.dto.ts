@@ -1,4 +1,4 @@
-import { IsString, IsInt, IsOptional, IsBoolean, IsArray, Min, MinLength, ValidateNested } from 'class-validator';
+import { IsString, IsInt, IsOptional, IsBoolean, IsArray, Min, MinLength, ValidateNested, IsIn, IsNumber } from 'class-validator';
 import { Type } from 'class-transformer';
 
 class PaymentDto {
@@ -6,9 +6,12 @@ class PaymentDto {
   required: boolean = false;
 
   @IsString()
+  @IsIn(['free', 'deposit', 'full'])
   mode: string = 'free';
 
   @IsOptional()
+  @IsNumber()
+  @Min(0)
   amount?: number | null;
 
   @IsString()
@@ -39,6 +42,11 @@ export class CreateEventTypeDto {
   @IsOptional()
   @IsBoolean()
   requiresApproval?: boolean;
+
+  @IsOptional()
+  @IsString()
+  @IsIn(['draft', 'published', 'archived'])
+  status?: string;
 
   @IsArray()
   @IsString({ each: true })

@@ -10,6 +10,11 @@ export class PublicBookingPagesController {
     return this.service.getPublicPageModel(slug)
   }
 
+  @Get(':workspaceSlug/:eventSlug')
+  async getEventPage(@Param('workspaceSlug') slug: string, @Param('eventSlug') eventSlug: string) {
+    return this.service.getPublicPageModel(slug, eventSlug)
+  }
+
   @Get(':workspaceSlug/*path')
   async getPageWithPath(@Param('workspaceSlug') slug: string, @Param('path') path: string) {
     return this.service.getPublicPageModel(slug, path)

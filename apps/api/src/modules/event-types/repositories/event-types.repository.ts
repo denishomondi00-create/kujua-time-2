@@ -22,6 +22,9 @@ export class EventTypesRepository {
 
   async findById(id: string) { return this.model.findById(id).exec(); }
   async findBySlug(workspaceId: string, slug: string) { return this.model.findOne({ workspaceId, slug }).exec(); }
+  async findFirstBookable(workspaceId: string) {
+    return this.model.findOne({ workspaceId, status: { $ne: 'archived' } }).sort({ createdAt: -1 }).exec();
+  }
   async create(data: Partial<EventType>) { return this.model.create(data); }
   async updateById(id: string, data: Partial<EventType>) { return this.model.findByIdAndUpdate(id, data, { new: true }).exec(); }
   async deleteById(id: string) { return this.model.findByIdAndDelete(id).exec(); }

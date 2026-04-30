@@ -12,6 +12,7 @@ export class WorkspacesService {
   }
 
   async findBySlug(slug: string) { return this.repo.findBySlug(slug); }
+  async findByOwnerId(ownerId: string) { return this.repo.findByOwnerId(ownerId); }
   async create(data: any) { return this.repo.create(data); }
   async update(id: string, data: any) { return this.repo.updateById(id, data); }
 

@@ -59,7 +59,10 @@ async function requestJson<T>(path: string, init?: RequestInit) {
   const payload = unwrapApiPayload<T>(await response.json())
 
   if (!response.ok) {
-    throw new Error(typeof payload?.message === 'string' ? payload.message : 'Booking request failed.')
+    const errorPayload = payload && typeof payload === 'object'
+      ? payload as { message?: unknown }
+      : {}
+    throw new Error(typeof errorPayload.message === 'string' ? errorPayload.message : 'Booking request failed.')
   }
 
   return payload as T

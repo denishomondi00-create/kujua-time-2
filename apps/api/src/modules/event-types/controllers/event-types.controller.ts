@@ -5,6 +5,7 @@ import { EventTypesService } from '../services/event-types.service'
 import { CreateEventTypeDto } from '../dto/create-event-type.dto'
 import { UpdateEventTypeDto } from '../dto/update-event-type.dto'
 import { PaginationQueryDto } from '../../../shared/dto/pagination.dto'
+import { EventTypeMapper } from '../mappers/event-type.mapper'
 
 @Controller('event-types')
 @UseGuards(JwtAuthGuard)
@@ -13,37 +14,38 @@ export class EventTypesController {
 
   @Get()
   async list(@CurrentWorkspace() workspaceId: string, @Query() query: PaginationQueryDto & { status?: string }) {
-    return this.service.list(workspaceId, query)
+    const result = await this.service.list(workspaceId, query)
+    return { ...result, items: result.items.map(EventTypeMapper.toResponse) }
   }
 
   @Post()
   async create(@CurrentWorkspace() workspaceId: string, @Body() dto: CreateEventTypeDto) {
-    return this.service.create(workspaceId, dto)
+    return EventTypeMapper.toResponse(await this.service.create(workspaceId, dto))
   }
 
   @Get(':eventTypeId')
   async findOne(@Param('eventTypeId') id: string) {
-    return this.service.findById(id)
+    return EventTypeMapper.toResponse(await this.service.findById(id))
   }
 
   @Patch(':eventTypeId')
   async update(@Param('eventTypeId') id: string, @Body() dto: UpdateEventTypeDto) {
-    return this.service.update(id, dto)
+    return EventTypeMapper.toResponse(await this.service.update(id, dto))
   }
 
   @Delete(':eventTypeId')
   async delete(@Param('eventTypeId') id: string) {
-    return this.service.delete(id)
+    return EventTypeMapper.toResponse(await this.service.delete(id))
   }
 
   @Post(':eventTypeId/duplicate')
   async duplicate(@Param('eventTypeId') id: string) {
-    return this.service.duplicate(id)
+    return EventTypeMapper.toResponse(await this.service.duplicate(id))
   }
 
   @Post(':eventTypeId/archive')
   async archive(@Param('eventTypeId') id: string) {
-    return this.service.archive(id)
+    return EventTypeMapper.toResponse(await this.service.archive(id))
   }
 
   @Get(':eventTypeId/preview')

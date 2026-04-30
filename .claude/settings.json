@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sudo apt *)",
+      "Bash(python3 -c \"import pexpect; print\\('pexpect ok'\\)\")",
+      "Bash(python3 -)",
+      "Bash(curl -s -o /dev/null -w \"HTTPS status: %{http_code}\\\\n\" --max-time 15 https://kujuatime.com)",
+      "Bash(python3 -c \"import paramiko; print\\('paramiko ok'\\)\")"
+    ]
+  }
+}

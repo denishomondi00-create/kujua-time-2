@@ -2,6 +2,12 @@ import 'server-only'
 
 import { cookies } from 'next/headers'
 import { unwrapApiPayload } from '@/lib/api-client/payload'
+import {
+  automationListResponseSchema,
+  automationLogsResponseSchema,
+  automationSchema,
+  automationTemplatesResponseSchema,
+} from '@/features/automations/schemas'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 
@@ -24,18 +30,18 @@ async function read(path: string) {
   return unwrapApiPayload(await response.json())
 }
 
-export function getAutomationsListServer() {
-  return read('/v1/automations')
+export async function getAutomationsListServer() {
+  return automationListResponseSchema.parse(await read('/v1/automations'))
 }
 
-export function getAutomationDetailServer(automationId: string) {
-  return read(`/v1/automations/${automationId}`)
+export async function getAutomationDetailServer(automationId: string) {
+  return automationSchema.parse(await read(`/v1/automations/${automationId}`))
 }
 
-export function getAutomationTemplatesServer() {
-  return read('/v1/automations/templates')
+export async function getAutomationTemplatesServer() {
+  return automationTemplatesResponseSchema.parse(await read('/v1/automations/templates'))
 }
 
-export function getAutomationLogsServer() {
-  return read('/v1/automations/logs')
+export async function getAutomationLogsServer() {
+  return automationLogsResponseSchema.parse(await read('/v1/automations/logs'))
 }

@@ -2,7 +2,11 @@ import 'server-only'
 
 import { cookies } from 'next/headers'
 
-import type { ClientListQuery } from '@/features/clients/schemas'
+import {
+  clientDetailSchema,
+  clientListResponseSchema,
+  type ClientListQuery,
+} from '@/features/clients/schemas'
 import { unwrapApiPayload } from '@/lib/api-client/payload'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
@@ -42,7 +46,7 @@ export async function getClientsListServer(query: Partial<ClientListQuery> = {})
     throw new Error('Unable to load clients.')
   }
 
-  return unwrapApiPayload(await response.json())
+  return clientListResponseSchema.parse(unwrapApiPayload(await response.json()))
 }
 
 export async function getClientDetailServer(clientId: string) {
@@ -57,5 +61,5 @@ export async function getClientDetailServer(clientId: string) {
     throw new Error('Unable to load client details.')
   }
 
-  return unwrapApiPayload(await response.json())
+  return clientDetailSchema.parse(unwrapApiPayload(await response.json()))
 }

@@ -1,6 +1,5 @@
 "use client"
 
-import { AlertBanner } from "@/components/feedback/alert-banner"
 import { SubmitButton } from "@/components/forms/submit-button"
 import {
   useConfirmFreeBookingMutation,
@@ -35,6 +34,11 @@ export function PaymentStep({
 
   async function handlePaidConfirm() {
     const checkout = await createCheckout.mutateAsync({ holdId: hold.id })
+    if (checkout.checkoutUrl) {
+      window.location.href = checkout.checkoutUrl
+      return
+    }
+
     const booking = await confirmPaid.mutateAsync({
       paymentAttemptId: checkout.paymentAttemptId,
     })
@@ -47,29 +51,32 @@ export function PaymentStep({
 
   return (
     <div className="space-y-4">
-      <AlertBanner title="Payment step">
-        Payment collection should stay in a client island. Providers like Stripe or Paystack can mount here without hydrating the full page shell.
-      </AlertBanner>
-
-      <div className="rounded-3xl border border-[var(--kt-border)] bg-[var(--kt-panel)] p-5">
-        <div className="flex items-start justify-between gap-4">
+      <div className="rounded-3xl border border-[var(--kt-border)] bg-[var(--kt-panel)] p-4 sm:p-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h3 className="text-lg font-semibold">{model.eventType.name}</h3>
+            <h3 className="text-lg font-semibold tracking-normal">{model.eventType.name}</h3>
             <p className="mt-1 text-sm text-[var(--kt-muted-foreground)]">
               {model.eventType.meetingSummary}
             </p>
           </div>
-          <div className="text-right">
+          <div className="sm:text-right">
             <div className="text-xs uppercase tracking-[0.16em] text-[var(--kt-muted-foreground)]">Due now</div>
             <div className="text-2xl font-semibold">{amountLabel}</div>
           </div>
         </div>
       </div>
 
+      {createCheckout.isError || confirmFree.isError || confirmPaid.isError ? (
+        <p className="text-sm font-medium text-rose-600">
+          This booking could not be confirmed. Please try again or choose another time.
+        </p>
+      ) : null}
+
       <div className="flex justify-end">
         {isZeroMoney(pricing.amountMinor) || pricing.paymentMode === "free" ? (
           <SubmitButton
             type="button"
+            className="w-full sm:w-auto"
             isLoading={confirmFree.isPending}
             onClick={handleFreeConfirm}
           >
@@ -78,10 +85,11 @@ export function PaymentStep({
         ) : (
           <SubmitButton
             type="button"
+            className="w-full sm:w-auto"
             isLoading={createCheckout.isPending || confirmPaid.isPending}
             onClick={handlePaidConfirm}
           >
-            Proceed to payment
+            Confirm booking
           </SubmitButton>
         )}
       </div>

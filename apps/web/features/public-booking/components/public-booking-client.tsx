@@ -1,8 +1,7 @@
 "use client"
 
-import { CalendarSync, CreditCard, FileEdit } from "lucide-react"
+import { CalendarDays, CalendarSync, CheckCircle2, ClipboardList, CreditCard } from "lucide-react"
 
-import { AlertBanner } from "@/components/feedback/alert-banner"
 import { SurfaceCard } from "@/components/layout/surface-card"
 import { BookingConfirmation } from "@/features/public-booking/components/booking-confirmation"
 import { CancelFlow } from "@/features/public-booking/components/cancel-flow"
@@ -13,6 +12,59 @@ import { SlotPicker } from "@/features/public-booking/components/slot-picker"
 import { TimezoneSelect } from "@/features/public-booking/components/timezone-select"
 import { usePublicBookingMachine } from "@/features/public-booking/hooks"
 import type { PublicBookingPageModel } from "@/features/public-booking/schemas/public-booking.schemas"
+
+const STEPS = [
+  { key: "slot", label: "Date & time", icon: CalendarDays },
+  { key: "details", label: "Your details", icon: ClipboardList },
+  { key: "payment", label: "Confirm", icon: CreditCard },
+] as const
+
+type ActiveStep = "slot" | "details" | "payment" | "confirmed"
+
+function StepProgress({ active }: { active: ActiveStep }) {
+  const activeIdx = STEPS.findIndex((s) => s.key === active)
+  const isDone = active === "confirmed"
+
+  return (
+    <div className="flex items-center gap-1">
+      {STEPS.map((step, idx) => {
+        const isCompleted = isDone || idx < activeIdx
+        const isCurrent = !isDone && idx === activeIdx
+        const Icon = step.icon
+
+        return (
+          <div key={step.key} className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
+              <div
+                className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition"
+                style={{
+                  background: isCompleted || isCurrent ? "var(--kt-accent)" : "var(--kt-muted)",
+                  color: isCompleted || isCurrent ? "#fff" : "var(--kt-muted-foreground)",
+                }}
+              >
+                {isCompleted ? <CheckCircle2 className="h-4 w-4" /> : <Icon className="h-3.5 w-3.5" />}
+              </div>
+              <span
+                className="hidden text-xs font-medium sm:inline"
+                style={{
+                  color: isCurrent ? "var(--kt-foreground)" : "var(--kt-muted-foreground)",
+                }}
+              >
+                {step.label}
+              </span>
+            </div>
+            {idx < STEPS.length - 1 ? (
+              <div
+                className="mx-1 h-px w-6 shrink-0 transition"
+                style={{ background: isCompleted ? "var(--kt-accent)" : "var(--kt-border)" }}
+              />
+            ) : null}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 export function PublicBookingClient({
   model,
@@ -31,8 +83,8 @@ export function PublicBookingClient({
         <div className="flex items-center gap-3">
           <CalendarSync className="h-5 w-5 text-[var(--kt-accent)]" />
           <div>
-            <h2 className="text-lg font-semibold">Reschedule your booking</h2>
-            <p className="text-sm text-[var(--kt-muted-foreground)]">This interaction is hydrated only after the public shell has rendered.</p>
+            <h2 className="text-lg font-semibold tracking-normal">Reschedule your booking</h2>
+            <p className="text-sm text-[var(--kt-muted-foreground)]">Choose a new time for this session.</p>
           </div>
         </div>
         <RescheduleFlow
@@ -54,8 +106,8 @@ export function PublicBookingClient({
         <div className="flex items-center gap-3">
           <CreditCard className="h-5 w-5 text-[var(--kt-danger)]" />
           <div>
-            <h2 className="text-lg font-semibold">Cancel your booking</h2>
-            <p className="text-sm text-[var(--kt-muted-foreground)]">Cancellation stays in a targeted client island instead of hydrating the whole page.</p>
+            <h2 className="text-lg font-semibold tracking-normal">Cancel your booking</h2>
+            <p className="text-sm text-[var(--kt-muted-foreground)]">Cancel this session and free the time on the calendar.</p>
           </div>
         </div>
         <CancelFlow token={token} />
@@ -63,32 +115,45 @@ export function PublicBookingClient({
     )
   }
 
+  const stepTitle = {
+    slot: "Choose a date & time",
+    details: "Enter your details",
+    payment: "Confirm your booking",
+    confirmed: "You're all booked!",
+  }[machine.step]
+
   return (
     <div className="space-y-5">
-      <AlertBanner title="Rendering model">
-        Server components own branding, metadata, trust content, meeting summary, and the first slot snapshot. This panel is the single client entry point for booking interaction.
-      </AlertBanner>
-
-      <SurfaceCard className="space-y-5">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <SurfaceCard className="space-y-5 p-4 sm:p-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm font-semibold text-[var(--kt-muted-foreground)]">
-              <FileEdit className="h-4 w-4" />
-              Step {machine.step === "slot" ? "1" : machine.step === "details" ? "2" : machine.step === "payment" ? "3" : "4"} of 4
-            </div>
-            <h2 className="text-xl font-semibold">Complete your booking</h2>
+            {machine.step !== "confirmed" ? (
+              <StepProgress active={machine.step} />
+            ) : (
+              <div className="flex items-center gap-2 text-sm font-semibold text-[var(--kt-success)]">
+                <CheckCircle2 className="h-4 w-4" />
+                Booking confirmed
+              </div>
+            )}
+            <h2 className="text-xl font-semibold tracking-normal">{stepTitle}</h2>
           </div>
-          <TimezoneSelect
-            value={machine.timezone}
-            onChange={machine.setTimezone}
-            extraTimezones={[model.workspace.timezone]}
-          />
+          {machine.step === "slot" ? (
+            <TimezoneSelect
+              value={machine.timezone}
+              onChange={(value) => {
+                machine.setSelectedSlot(null)
+                machine.setTimezone(value)
+              }}
+              extraTimezones={[model.workspace.timezone]}
+            />
+          ) : null}
         </div>
 
         {machine.step === "slot" ? (
           <SlotPicker
             publicEventId={model.eventType.id}
             date={machine.date}
+            initialDate={model.availabilitySnapshot.date}
             timezone={machine.timezone}
             initialSlots={model.availabilitySnapshot.slots}
             selectedSlot={machine.selectedSlot}
@@ -106,11 +171,7 @@ export function PublicBookingClient({
             hold={machine.hold}
             onCompleted={(hold) => {
               machine.setHold(hold)
-              if (machine.requiresPayment) {
-                machine.goToPayment()
-              } else {
-                machine.goToPayment()
-              }
+              machine.goToPayment()
             }}
           />
         ) : null}

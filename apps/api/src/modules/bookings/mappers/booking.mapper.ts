@@ -32,7 +32,7 @@ export class BookingMapper {
     return {
       bookingId: doc.id,
       publicBookingToken: doc.publicBookingToken,
-      status: doc.status === 'upcoming' ? 'confirmed' : doc.status,
+      status: doc.status === 'canceled' ? 'canceled' : 'confirmed',
       startAt: doc.startAt.toISOString(),
       endAt: doc.endAt.toISOString(),
       eventName: doc.eventTypeName,

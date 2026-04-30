@@ -2,7 +2,12 @@ import 'server-only'
 
 import { cookies } from 'next/headers'
 
-import type { EventTypeListQuery } from '@/features/event-types/schemas'
+import {
+  eventTypeListResponseSchema,
+  eventTypePreviewSchema,
+  eventTypeSchema,
+  type EventTypeListQuery,
+} from '@/features/event-types/schemas'
 import { unwrapApiPayload } from '@/lib/api-client/payload'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
@@ -42,7 +47,7 @@ export async function getEventTypesListServer(query: Partial<EventTypeListQuery>
     throw new Error('Unable to load event types.')
   }
 
-  return unwrapApiPayload(await response.json())
+  return eventTypeListResponseSchema.parse(unwrapApiPayload(await response.json()))
 }
 
 export async function getEventTypeDetailServer(eventTypeId: string) {
@@ -57,7 +62,7 @@ export async function getEventTypeDetailServer(eventTypeId: string) {
     throw new Error('Unable to load event type details.')
   }
 
-  return unwrapApiPayload(await response.json())
+  return eventTypeSchema.parse(unwrapApiPayload(await response.json()))
 }
 
 export async function getEventTypePreviewServer(eventTypeId: string) {
@@ -72,5 +77,5 @@ export async function getEventTypePreviewServer(eventTypeId: string) {
     throw new Error('Unable to load event type preview.')
   }
 
-  return unwrapApiPayload(await response.json())
+  return eventTypePreviewSchema.parse(unwrapApiPayload(await response.json()))
 }

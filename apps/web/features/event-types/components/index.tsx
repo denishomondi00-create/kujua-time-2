@@ -1,13 +1,24 @@
 'use client'
 
+import type { ChangeEvent } from 'react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Link2, MapPin, MessageCircle, MonitorSmartphone, Phone, Video } from 'lucide-react'
 
 import { useCreateEventTypeMutation, useUpdateEventTypeMutation } from '@/features/event-types/mutations'
 import { MEETING_LOCATION_OPTIONS, formatEventTypePayment, getEventTypeStatusTone } from '@/features/event-types/utils'
-import { eventTypeCreateSchema, type EventType, type EventTypeCreateInput, type EventTypePreview, type EventTypeStatus } from '@/features/event-types/schemas'
+import { eventTypeCreateSchema, type EventType, type EventTypeCreateInput, type EventTypePreview, type EventTypeStatus, type MeetingLocationType } from '@/features/event-types/schemas'
 import type { EventTypeBuilderTab } from '@/features/event-types/hooks'
+
+const LOCATION_ICONS: Record<MeetingLocationType, React.ReactNode> = {
+  in_person: <MapPin size={16} />,
+  zoom: <Video size={16} />,
+  google_meet: <MonitorSmartphone size={16} />,
+  phone: <Phone size={16} />,
+  whatsapp: <MessageCircle size={16} />,
+  custom: <Link2 size={16} />,
+}
 
 function StatusPill({ status }: { status: EventTypeStatus }) {
   const tone = getEventTypeStatusTone(status)
@@ -19,7 +30,9 @@ function StatusPill({ status }: { status: EventTypeStatus }) {
   )
 }
 
-export function EventTypeCard({ eventType }: { eventType: EventType }) {
+export function EventTypeCard({ eventType, workspaceSlug }: { eventType: EventType; workspaceSlug?: string }) {
+  const publicBookingPath = workspaceSlug ? `/book/${workspaceSlug}/${eventType.slug}` : undefined
+
   return (
     <article style={{ background: 'var(--kujua-white)', border: '1px solid var(--kujua-gray-200)', borderRadius: 20, padding: 20, boxShadow: 'var(--kujua-shadow-sm)' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'start', marginBottom: 14 }}>
@@ -37,15 +50,16 @@ export function EventTypeCard({ eventType }: { eventType: EventType }) {
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
         <Link href={`/app/event-types/${eventType.id}`} className="btn-secondary">Edit</Link>
         <Link href={`/app/event-types/${eventType.id}/preview`} className="btn-primary">Preview</Link>
+        {publicBookingPath ? <Link href={publicBookingPath} className="btn-secondary">Booking page</Link> : null}
       </div>
     </article>
   )
 }
 
-export function EventTypesGrid({ items }: { items: EventType[] }) {
+export function EventTypesGrid({ items, workspaceSlug }: { items: EventType[]; workspaceSlug?: string }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
-      {items.map((item) => <EventTypeCard key={item.id} eventType={item} />)}
+      {items.map((item) => <EventTypeCard key={item.id} eventType={item} workspaceSlug={workspaceSlug} />)}
     </div>
   )
 }
@@ -78,9 +92,17 @@ export function EventTypeBuilderTabs({ activeTab, onChange }: { activeTab: Event
 
 type EventTypeBuilderFormProps = {
   mode: 'create' | 'update'
-  initialValues?: Partial<EventTypeCreateInput>
+  initialValues?: Partial<Omit<EventTypeCreateInput, 'color' | 'description'> & { color?: string | null; description?: string | null }>
   eventTypeId?: string
   onSuccess?(eventTypeId: string): void
+}
+
+function slugifyEventTypeName(value: string) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
 }
 
 export function EventTypeBuilderForm({ mode, initialValues, eventTypeId, onSuccess }: EventTypeBuilderFormProps) {
@@ -106,6 +128,8 @@ export function EventTypeBuilderForm({ mode, initialValues, eventTypeId, onSucce
       },
     },
   })
+  const nameRegistration = form.register('name')
+  const slugRegistration = form.register('slug')
 
   const handleSubmit = form.handleSubmit(async (values) => {
     const result = mode === 'create'
@@ -115,17 +139,27 @@ export function EventTypeBuilderForm({ mode, initialValues, eventTypeId, onSucce
     onSuccess?.(result.id)
   })
 
+  function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
+    nameRegistration.onChange(event)
+    if (mode === 'create' && !form.getFieldState('slug').isDirty) {
+      form.setValue('slug', slugifyEventTypeName(event.target.value), {
+        shouldValidate: true,
+        shouldDirty: false,
+      })
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 18 }}>
       <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
         <div>
           <label htmlFor="event-name" style={{ display: 'block', marginBottom: 8, fontWeight: 600 }}>Event name</label>
-          <input id="event-name" className="kujua-input" {...form.register('name')} />
+          <input id="event-name" className="kujua-input" {...nameRegistration} onChange={handleNameChange} />
           {form.formState.errors.name ? <p style={{ color: 'var(--kujua-error)', margin: '6px 0 0 0' }}>{form.formState.errors.name.message}</p> : null}
         </div>
         <div>
           <label htmlFor="event-slug" style={{ display: 'block', marginBottom: 8, fontWeight: 600 }}>Slug</label>
-          <input id="event-slug" className="kujua-input" {...form.register('slug')} />
+          <input id="event-slug" className="kujua-input" {...slugRegistration} />
           {form.formState.errors.slug ? <p style={{ color: 'var(--kujua-error)', margin: '6px 0 0 0' }}>{form.formState.errors.slug.message}</p> : null}
         </div>
       </div>
@@ -153,15 +187,43 @@ export function EventTypeBuilderForm({ mode, initialValues, eventTypeId, onSucce
       </div>
 
       <fieldset style={{ border: '1px solid var(--kujua-gray-200)', borderRadius: 16, padding: 16 }}>
-        <legend style={{ padding: '0 8px', fontWeight: 700, color: 'var(--kujua-charcoal)' }}>Meeting locations</legend>
-        <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
-          {MEETING_LOCATION_OPTIONS.map((option) => (
-            <label key={option.value} style={{ display: 'inline-flex', gap: 10, alignItems: 'center' }}>
-              <input type="checkbox" value={option.value} {...form.register('locations')} />
-              {option.label}
-            </label>
-          ))}
+        <legend style={{ padding: '0 8px', fontWeight: 700, color: 'var(--kujua-charcoal)' }}>Meeting location</legend>
+        <p style={{ margin: '0 0 12px 0', fontSize: '0.875rem', color: 'var(--kujua-gray-500, #6b7280)' }}>
+          Choose one place where you will meet your clients.
+        </p>
+        <div style={{ display: 'grid', gap: 8, gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))' }}>
+          {MEETING_LOCATION_OPTIONS.map((option) => {
+            const isSelected = form.watch('locations')?.[0] === option.value
+            return (
+              <label
+                key={option.value}
+                style={{
+                  display: 'flex', gap: 8, alignItems: 'center', padding: '10px 14px',
+                  borderRadius: 12, cursor: 'pointer', transition: 'all 0.15s',
+                  border: `2px solid ${isSelected ? 'var(--kujua-teal, #0d9488)' : 'var(--kujua-gray-200)'}`,
+                  background: isSelected ? 'color-mix(in srgb, var(--kujua-teal, #0d9488) 8%, white)' : 'white',
+                  color: isSelected ? 'var(--kujua-teal, #0d9488)' : 'var(--kujua-charcoal)',
+                  fontWeight: isSelected ? 600 : 400,
+                }}
+              >
+                <input
+                  type="radio"
+                  style={{ display: 'none' }}
+                  value={option.value}
+                  checked={isSelected}
+                  onChange={() => form.setValue('locations', [option.value], { shouldValidate: true })}
+                />
+                <span style={{ flexShrink: 0 }}>{LOCATION_ICONS[option.value]}</span>
+                <span style={{ fontSize: '0.875rem' }}>{option.label}</span>
+              </label>
+            )
+          })}
         </div>
+        {form.formState.errors.locations ? (
+          <p style={{ color: 'var(--kujua-error)', margin: '8px 0 0 0', fontSize: '0.875rem' }}>
+            {form.formState.errors.locations.message as string}
+          </p>
+        ) : null}
       </fieldset>
 
       <fieldset style={{ border: '1px solid var(--kujua-gray-200)', borderRadius: 16, padding: 16 }}>

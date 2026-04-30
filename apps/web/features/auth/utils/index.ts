@@ -65,11 +65,14 @@ async function requestJson<T>(path: string, init: RequestOptions = {}, parse?: (
   const payload = isJson ? unwrapApiPayload<T>(await response.json()) : null
 
   if (!response.ok) {
+    const errorPayload = payload && typeof payload === 'object'
+      ? payload as { message?: unknown; code?: unknown }
+      : {}
     const message =
-      typeof payload?.message === 'string'
-        ? payload.message
+      typeof errorPayload.message === 'string'
+        ? errorPayload.message
         : 'The request could not be completed.'
-    const code = typeof payload?.code === 'string' ? payload.code : undefined
+    const code = typeof errorPayload.code === 'string' ? errorPayload.code : undefined
     throw new AuthApiError(message, response.status, code)
   }
 

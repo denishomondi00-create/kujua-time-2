@@ -69,14 +69,17 @@ async function requestJson<T>(path: string, init?: RequestInit) {
   const payload = unwrapApiPayload<T>(await response.json())
 
   if (!response.ok) {
-    throw new Error(typeof payload?.message === 'string' ? payload.message : 'Event type request failed.')
+    const errorPayload = payload && typeof payload === 'object'
+      ? payload as { message?: unknown }
+      : {}
+    throw new Error(typeof errorPayload.message === 'string' ? errorPayload.message : 'Event type request failed.')
   }
 
   return payload as T
 }
 
 export function formatEventTypePayment(eventType: Pick<EventType, 'payment'>) {
-  if (!eventType.payment.required || eventType.payment.mode === 'free') return 'Free'
+  if (eventType.payment.mode === 'free') return 'Free'
   if (eventType.payment.amount === null || eventType.payment.amount === undefined) return 'Paid'
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -116,17 +119,19 @@ export async function getEventTypeDetail(eventTypeId: string) {
 }
 
 export async function createEventType(input: EventTypeCreateInput) {
-  return requestJson<EventType>('/v1/event-types', {
+  const payload = await requestJson<EventType>('/v1/event-types', {
     method: 'POST',
     body: JSON.stringify(eventTypeCreateSchema.parse(input)),
   })
+  return eventTypeSchema.parse(payload)
 }
 
 export async function updateEventType(eventTypeId: string, input: EventTypeUpdateInput) {
-  return requestJson<EventType>(`/v1/event-types/${eventTypeId}`, {
+  const payload = await requestJson<EventType>(`/v1/event-types/${eventTypeId}`, {
     method: 'PATCH',
     body: JSON.stringify(eventTypeUpdateSchema.parse(input)),
   })
+  return eventTypeSchema.parse(payload)
 }
 
 export async function duplicateEventType(eventTypeId: string) {

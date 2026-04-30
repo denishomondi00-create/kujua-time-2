@@ -6,7 +6,6 @@ import { FormField } from "@/components/forms/form-field"
 import { SubmitButton } from "@/components/forms/submit-button"
 import { TextArea } from "@/components/forms/text-area"
 import { TextInput } from "@/components/forms/text-input"
-import { AlertBanner } from "@/components/feedback/alert-banner"
 import { useUpdateBookingHoldMutation } from "@/features/public-booking/mutations"
 import type { BookingHold } from "@/features/public-booking/schemas/public-booking.schemas"
 
@@ -32,14 +31,12 @@ export function IntakeForm({
   }
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
-      <AlertBanner title="Client details">
-        This client step should stay hydrated. Route shells remain server-first.
-      </AlertBanner>
-
+    <form className="space-y-5" onSubmit={handleSubmit}>
       <div className="grid gap-4 sm:grid-cols-2">
         <FormField label="Full name">
           <TextInput
+            required
+            autoComplete="name"
             placeholder="Jane Doe"
             value={values.fullName}
             onChange={(event) => setValues((current) => ({ ...current, fullName: event.target.value }))}
@@ -47,7 +44,9 @@ export function IntakeForm({
         </FormField>
         <FormField label="Email">
           <TextInput
+            required
             type="email"
+            autoComplete="email"
             placeholder="jane@example.com"
             value={values.email}
             onChange={(event) => setValues((current) => ({ ...current, email: event.target.value }))}
@@ -55,17 +54,16 @@ export function IntakeForm({
         </FormField>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4">
         <FormField label="Phone">
           <TextInput
+            type="tel"
+            autoComplete="tel"
             placeholder="+254 700 000 000"
             value={values.phone}
             onChange={(event) => setValues((current) => ({ ...current, phone: event.target.value }))}
           />
         </FormField>
-        <div className="rounded-2xl border border-[var(--kt-border)] bg-[var(--kt-muted)] p-4 text-sm text-[var(--kt-muted-foreground)]">
-          Intake questions can expand here through form schema-driven rendering.
-        </div>
       </div>
 
       <FormField label="Notes" hint="Optional">
@@ -76,8 +74,14 @@ export function IntakeForm({
         />
       </FormField>
 
+      {updateHold.isError ? (
+        <p className="text-sm font-medium text-rose-600">
+          Please check your details and try again.
+        </p>
+      ) : null}
+
       <div className="flex justify-end">
-        <SubmitButton isLoading={updateHold.isPending}>
+        <SubmitButton className="w-full sm:w-auto" isLoading={updateHold.isPending}>
           Save and continue
         </SubmitButton>
       </div>

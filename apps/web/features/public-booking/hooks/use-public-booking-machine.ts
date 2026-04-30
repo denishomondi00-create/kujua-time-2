@@ -12,6 +12,10 @@ import { getBrowserTimezone } from "@/lib/utils/timezone"
 
 type Step = "slot" | "details" | "payment" | "confirmed"
 
+function firstAvailableSlot(slots: PublicSlot[]) {
+  return slots.find((slot) => slot.available) ?? null
+}
+
 export function usePublicBookingMachine(initialModel: PublicBookingPageModel) {
   const [step, setStep] = useState<Step>("slot")
   const [date, setDate] = useState(initialModel.availabilitySnapshot.date)
@@ -19,7 +23,7 @@ export function usePublicBookingMachine(initialModel: PublicBookingPageModel) {
     initialModel.availabilitySnapshot.timezone || getBrowserTimezone(),
   )
   const [selectedSlot, setSelectedSlot] = useState<PublicSlot | null>(
-    initialModel.availabilitySnapshot.slots[0] ?? null,
+    firstAvailableSlot(initialModel.availabilitySnapshot.slots),
   )
   const [hold, setHold] = useState<BookingHold | null>(null)
   const [confirmation, setConfirmation] = useState<ConfirmedBooking | null>(null)

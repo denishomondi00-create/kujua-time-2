@@ -6,7 +6,7 @@ export function BookingPageHeader({ model }: { model: PublicBookingPageModel }) 
   return (
     <section className="kt-card overflow-hidden">
       <div
-        className="px-6 py-10 text-white"
+        className="px-4 py-6 text-white sm:px-6 sm:py-10"
         style={{
           background: `linear-gradient(135deg, ${model.theme.accentColor}, ${model.theme.accentSoft})`,
         }}
@@ -16,21 +16,21 @@ export function BookingPageHeader({ model }: { model: PublicBookingPageModel }) 
             {model.workspace.name}
           </div>
           <div className="space-y-2">
-            <h1 className="text-3xl font-semibold text-white sm:text-4xl">{model.eventType.name}</h1>
+            <h1 className="text-2xl font-semibold tracking-normal text-white sm:text-4xl">{model.eventType.name}</h1>
             <p className="max-w-3xl text-sm text-white/85 sm:text-base">{model.eventType.description}</p>
           </div>
           <div className="flex flex-wrap gap-3 text-sm text-white/90">
-            <span className="kt-pill border-white/20 bg-white/10 text-white">
+            <span className="kt-pill max-w-full border-white/20 bg-white/10 text-white">
               <Clock3 className="h-4 w-4" />
-              {model.eventType.durationMinutes} minutes
+              <span>{model.eventType.durationMinutes} minutes</span>
             </span>
-            <span className="kt-pill border-white/20 bg-white/10 text-white">
+            <span className="kt-pill max-w-full border-white/20 bg-white/10 text-white">
               <MapPin className="h-4 w-4" />
-              {model.eventType.locationLabel}
+              <span className="min-w-0 break-words">{model.eventType.locationLabel}</span>
             </span>
-            <span className="kt-pill border-white/20 bg-white/10 text-white">
+            <span className="kt-pill max-w-full border-white/20 bg-white/10 text-white">
               <Globe2 className="h-4 w-4" />
-              {model.workspace.timezone}
+              <span className="min-w-0 break-words">{model.workspace.timezone}</span>
             </span>
           </div>
         </div>

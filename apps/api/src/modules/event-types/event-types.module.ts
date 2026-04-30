@@ -2,12 +2,17 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EventType, EventTypeSchema } from './schemas/event-type.schema';
 import { EventTypesController } from './controllers/event-types.controller';
+import { PublicEventTypesController } from './controllers/public-event-types.controller';
 import { EventTypesService } from './services/event-types.service';
 import { EventTypesRepository } from './repositories/event-types.repository';
+import { AvailabilityModule } from '../availability/availability.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: EventType.name, schema: EventTypeSchema }])],
-  controllers: [EventTypesController],
+  imports: [
+    MongooseModule.forFeature([{ name: EventType.name, schema: EventTypeSchema }]),
+    AvailabilityModule,
+  ],
+  controllers: [EventTypesController, PublicEventTypesController],
   providers: [EventTypesService, EventTypesRepository],
   exports: [EventTypesService],
 })
